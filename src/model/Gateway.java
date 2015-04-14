@@ -28,9 +28,9 @@ public abstract class Gateway {
 
 		try {
 			MysqlDataSource mysqlDS = new MysqlDataSource();
-			mysqlDS.setURL("jdbc:mysql://devcloud.fulgentcorp.com:3306/lrp333");
-			mysqlDS.setUser("lrp333");
-			mysqlDS.setPassword("MYDi57eKHZInMWXt5MkS");
+			mysqlDS.setURL("jdbc:mysql://devcloud.fulgentcorp.com:3306/kto128");
+			mysqlDS.setUser("kto128");
+			mysqlDS.setPassword("DOcOUkJtZNXAq1OVT4ww");
 			return mysqlDS;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
