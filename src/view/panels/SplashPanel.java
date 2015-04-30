@@ -13,8 +13,8 @@ public class SplashPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private String flag;
 	private BufferedImage img;
-	private String loading = "splashscreen.gif";
-	private String noConnection = "splashnoConnection.png";
+	private String loading = "src/res/splashscreen.gif";
+	private String noConnection = "src/res/splashnoConnection.png";
 
 	public SplashPanel(String flag) {
 		this.flag = flag;

@@ -17,7 +17,7 @@ public abstract class Gateway {
 		try {
 			if (DEBUG)
 				System.out.println("Reading database properties.");
-			fp = new FileInputStream("db.properties");
+			fp = new FileInputStream("sql/db.properties");
 			props.load(fp);
 			if (DEBUG)
 				System.out.println("Database properties read successfully");
