@@ -23,21 +23,24 @@ public class MainView extends JFrame {
 	 * 
 	 * @param inventory
 	 */
-	public MainView(InventoryModel inventoryModel, PartsModel partsModel, ProductTemplatesModel templatesModel) {
-		super("Cabinetron Inventory: Logged in as " + Main.userSession.getUser().getName());
+	public MainView(InventoryModel inventoryModel, PartsModel partsModel,
+			ProductTemplatesModel templatesModel) {
+		super("Cabinetron Inventory: Logged in as "
+				+ Main.userSession.getUser().getName());
 
 		try {
-	        setIconImage(ImageIO.read(new File("src/res/icon.png")));
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
+			setIconImage(ImageIO.read(new File("src/res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// create the main view
 		panel = new MainPanel();
 		add(panel, BorderLayout.CENTER);
 
 		// link the lists to their respective models
-		panel.listInventoryItems.setModel(inventoryModel.getInventoryItemList());
+		panel.listInventoryItems
+				.setModel(inventoryModel.getInventoryItemList());
 		panel.listParts.setModel(partsModel.getPartList());
 		panel.listTemplates.setModel(templatesModel.getTemplateList());
 

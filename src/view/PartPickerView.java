@@ -28,16 +28,17 @@ public class PartPickerView extends JFrame {
 	 * 
 	 * @param inventory
 	 */
-	public PartPickerView(PartsModel partsModel, InventoryItemView inventoryItemView) {
+	public PartPickerView(PartsModel partsModel,
+			InventoryItemView inventoryItemView) {
 		super("Cabinetron Part Picker");
 		this.inventoryItemView = inventoryItemView;
-		
+
 		try {
-	        setIconImage(ImageIO.read(new File("src/res/icon.png")));
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
+			setIconImage(ImageIO.read(new File("src/res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		// create the main view
 		panel = new PartPickerPanel();
 		add(panel, BorderLayout.CENTER);
@@ -53,10 +54,10 @@ public class PartPickerView extends JFrame {
 
 		activateListeners();
 	}
-	
+
 	public PartPickerView(PartsModel partsModel) {
 		super("Cabinetron Part Picker");
-		
+
 		// create the main view
 		panel = new PartPickerPanel();
 		add(panel, BorderLayout.CENTER);
@@ -91,9 +92,11 @@ public class PartPickerView extends JFrame {
 
 	public void showView() {
 		this.setVisible(true);
-		if (inventoryItemView == null || inventoryItemView.getSelectedItem() == null)
+		if (inventoryItemView == null
+				|| inventoryItemView.getSelectedItem() == null)
 			return;
-		panel.listParts.setSelectedValue(inventoryItemView.getSelectedItem(), true);
+		panel.listParts.setSelectedValue(inventoryItemView.getSelectedItem(),
+				true);
 	}
 
 	public void hideView() {

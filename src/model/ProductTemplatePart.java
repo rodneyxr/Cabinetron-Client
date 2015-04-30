@@ -12,25 +12,27 @@ public class ProductTemplatePart {
 	private double quantity;
 	private ProductTemplatePartView ptpv;
 	private ProductTemplate template;
-	
 
 	public ProductTemplatePart(UUID partID, double quantity) throws Exception {
 		updateTemplatePart(true, UUID.randomUUID(), partID, quantity);
 	}
-	
-	public ProductTemplatePart(UUID productTemplateID, UUID partID, double quantity) throws Exception {
+
+	public ProductTemplatePart(UUID productTemplateID, UUID partID,
+			double quantity) throws Exception {
 		updateTemplatePart(true, productTemplateID, partID, quantity);
 	}
 
-	public void updateTemplatePart(UUID productTemplateID, UUID partID, double quantity) throws Exception {
+	public void updateTemplatePart(UUID productTemplateID, UUID partID,
+			double quantity) throws Exception {
 		updateTemplatePart(false, productTemplateID, partID, quantity);
 	}
 
-	private void updateTemplatePart(boolean isNew, UUID productTemplateID, UUID partID, double quantity) throws Exception {
+	private void updateTemplatePart(boolean isNew, UUID productTemplateID,
+			UUID partID, double quantity) throws Exception {
 		setProductTemplateID(productTemplateID);
 		setPartID(partID);
 		setQuantity(quantity);
-		
+
 	}
 
 	public UUID getProductTemplateID() {
@@ -70,10 +72,10 @@ public class ProductTemplatePart {
 			throw new Exception("Error: Quantity amount is too low");
 		this.quantity = quantity;
 	}
-	
-	
-	public String toString(){
-		return this.getQuantity() +"\t\t"+ Main.partsModel.getPartById(partID).toString();
+
+	public String toString() {
+		return this.getQuantity() + "\t\t"
+				+ Main.partsModel.getPartById(partID).toString();
 	}
 
 	public ProductTemplatePartView getView() {

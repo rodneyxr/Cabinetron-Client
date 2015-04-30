@@ -34,13 +34,13 @@ public class ItemSelectorView extends JFrame {
 
 	public ItemSelectorView() {
 		super("Cabinetron: Item Selector");
-		
+
 		try {
 			setIconImage(ImageIO.read(new File("src/res/icon.png")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		setSize(600, 450);
 		setLocationRelativeTo(null);
 		setResizable(true);
@@ -58,7 +58,8 @@ public class ItemSelectorView extends JFrame {
 
 		// link the lists to their respective models
 		partPickerPanel.listParts.setModel(Main.partsModel.getPartList());
-		templatePickerPanel.listTemplates.setModel(Main.templatesModel.getTemplateList());
+		templatePickerPanel.listTemplates.setModel(Main.templatesModel
+				.getTemplateList());
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -133,8 +134,10 @@ public class ItemSelectorView extends JFrame {
 		partPickerPanel.labelPartName.setText(part.getItemName());
 		partPickerPanel.labelPartNumber.setText(part.getPartNumber());
 		partPickerPanel.labelPartVendor.setText(part.getPartVendor());
-		partPickerPanel.labelQuantityUnit.setText(part.getQuantityUnit().toString());
-		partPickerPanel.labelExternalPartNumber.setText(part.getExternalPartNumber());
+		partPickerPanel.labelQuantityUnit.setText(part.getQuantityUnit()
+				.toString());
+		partPickerPanel.labelExternalPartNumber.setText(part
+				.getExternalPartNumber());
 	}
 
 	public Part getSelectedPartInList() {
@@ -144,10 +147,13 @@ public class ItemSelectorView extends JFrame {
 	private void updateInfoForTemplate(ProductTemplate template) {
 		if (template == null)
 			return;
-		templatePickerPanel.labelTemplateID.setText(String.valueOf(template.getItemID()));
+		templatePickerPanel.labelTemplateID.setText(String.valueOf(template
+				.getItemID()));
 		templatePickerPanel.labelProductNumber.setText(template.getItemName());
-		templatePickerPanel.labelQuantityUnit.setText(template.getQuantityUnit().toString());
-		templatePickerPanel.labelTemplateDescription.setText(template.getDescription());
+		templatePickerPanel.labelQuantityUnit.setText(template
+				.getQuantityUnit().toString());
+		templatePickerPanel.labelTemplateDescription.setText(template
+				.getDescription());
 	}
 
 	public ProductTemplate getSelectedTemplateInList() {
@@ -160,9 +166,11 @@ public class ItemSelectorView extends JFrame {
 
 	// public void showView() {
 	// this.setVisible(true);
-	// if (inventoryItemView == null || inventoryItemView.getSelectedPart() == null)
+	// if (inventoryItemView == null || inventoryItemView.getSelectedPart() ==
+	// null)
 	// return;
-	// panel.listParts.setSelectedValue(inventoryItemView.getSelectedPart(), true);
+	// panel.listParts.setSelectedValue(inventoryItemView.getSelectedPart(),
+	// true);
 	// }
 
 }

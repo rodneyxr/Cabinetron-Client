@@ -27,7 +27,7 @@ import controller.ProductTemplateController;
 /**
  * 
  * CS 4743 Assignment 4 by Steven Petroff, Rodney Rodriguez
- *
+ * 
  */
 
 public class Main {
@@ -132,7 +132,8 @@ public class Main {
 
 		try {
 			userSession = Authenticator.authenticateUser(user);
-			System.out.println("User authenticated: " + userSession.getUser().getName());
+			System.out.println("User authenticated: "
+					+ userSession.getUser().getName());
 			hideSplashScreen();
 			startClient();
 		} catch (Exception e) {

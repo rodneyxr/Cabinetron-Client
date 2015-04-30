@@ -29,7 +29,8 @@ public class Session {
 	}
 
 	public boolean canViewInventory() {
-		return role.equals(Role.ProdManager) || role.equals(Role.InvManager) || role.equals(Role.Admin);
+		return role.equals(Role.ProdManager) || role.equals(Role.InvManager)
+				|| role.equals(Role.Admin);
 	}
 
 	public boolean canAddInventory() {
@@ -41,7 +42,8 @@ public class Session {
 	}
 
 	public boolean canViewParts() {
-		return role.equals(Role.ProdManager) || role.equals(Role.InvManager) || role.equals(Role.Admin);
+		return role.equals(Role.ProdManager) || role.equals(Role.InvManager)
+				|| role.equals(Role.Admin);
 	}
 
 	public boolean canAddParts() {

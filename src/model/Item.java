@@ -6,6 +6,6 @@ public interface Item {
 	UUID getItemID();
 
 	String getItemName();
-	
+
 	QuantityUnit getQuantityUnit();
 }

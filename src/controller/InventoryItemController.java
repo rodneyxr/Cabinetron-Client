@@ -75,31 +75,43 @@ public class InventoryItemController {
 		InventoryItem newItem = null; // new item to be added
 		try {
 			if (item instanceof Part) {
-				newItem = new PartInventoryItem((Part) item, parent.getQuantity(), parent.getItemLocation());
-			} else if (item instanceof ProductTemplate) { // FIXME: works client side, bugs on DB end
-				newItem = new ProductInventoryItem((ProductTemplate) item, parent.getQuantity(), parent.getItemLocation());
-				try{
-					templateToProductQuantity(Main.templatesModel.getTemplateByID(item.getItemID()), parent.getItemLocation().name().toString(),parent.getQuantity());
-				}catch(Exception e1){
+				newItem = new PartInventoryItem((Part) item,
+						parent.getQuantity(), parent.getItemLocation());
+			} else if (item instanceof ProductTemplate) { // FIXME: works client
+															// side, bugs on DB
+															// end
+				newItem = new ProductInventoryItem((ProductTemplate) item,
+						parent.getQuantity(), parent.getItemLocation());
+				try {
+					templateToProductQuantity(
+							Main.templatesModel.getTemplateByID(item
+									.getItemID()), parent.getItemLocation()
+									.name().toString(), parent.getQuantity());
+				} catch (Exception e1) {
 					throw new Exception(e1.getMessage());
 				}
 			}
-			
-			if(InventoryItemView.inventoryModel.itemExists(newItem)){
-				if(item instanceof ProductTemplate && InventoryItemView.inventoryModel.productExistsAtLocation(newItem)){
+
+			if (InventoryItemView.inventoryModel.itemExists(newItem)) {
+				if (item instanceof ProductTemplate
+						&& InventoryItemView.inventoryModel
+								.productExistsAtLocation(newItem)) {
 					// update quantity of existing producttemplate
-					InventoryItem invItem = InventoryItemView.inventoryModel.getProductAtLocation(newItem);
-					invItem.setQuantity(invItem.getQuantity()+newItem.getQuantity());
-					//update db
+					InventoryItem invItem = InventoryItemView.inventoryModel
+							.getProductAtLocation(newItem);
+					invItem.setQuantity(invItem.getQuantity()
+							+ newItem.getQuantity());
+					// update db
 					Main.inventoryGateway.updateInvItemToDB(invItem);
 					parent.setVisible(false);
 					parent.setUpdateOnly();
 					newItem.setItemView(parent);
 					return;
-				}else{
-					throw new Exception("Error: That inventory item already exists");
+				} else {
+					throw new Exception(
+							"Error: That inventory item already exists");
 				}
-					
+
 			}
 			InventoryItemView.inventoryModel.addItem(newItem);
 		} catch (Exception ex) {
@@ -125,18 +137,25 @@ public class InventoryItemController {
 
 			// check if another item has the same part/location
 			if (!oldItem.getLocation().equals(parent.getItemLocation()))
-				if (InventoryItemView.inventoryModel.itemExistsByPartAndLocation(oldItem.getItem(), parent.getItemLocation()))
-					throw new Exception("Error: That item is already in inventory");
+				if (InventoryItemView.inventoryModel
+						.itemExistsByPartAndLocation(oldItem.getItem(),
+								parent.getItemLocation()))
+					throw new Exception(
+							"Error: That item is already in inventory");
 
 			// update the part locally
-			if( oldItem instanceof ProductInventoryItem){
+			if (oldItem instanceof ProductInventoryItem) {
 				double q;
-				if(( q = (parent.getQuantity() - oldItem.getQuantity())) > 0){
-					templateToProductQuantity((ProductTemplate) oldItem.getItem(),oldItem.getLocation().name(), q);
-					oldItem.update(parent.getQuantity(), parent.getItemLocation());
+				if ((q = (parent.getQuantity() - oldItem.getQuantity())) > 0) {
+					templateToProductQuantity(
+							(ProductTemplate) oldItem.getItem(), oldItem
+									.getLocation().name(), q);
+					oldItem.update(parent.getQuantity(),
+							parent.getItemLocation());
 					Main.inventoryGateway.updateInvItemToDB(oldItem);
-				} else{
-					oldItem.update(parent.getQuantity(), parent.getItemLocation());
+				} else {
+					oldItem.update(parent.getQuantity(),
+							parent.getItemLocation());
 					Main.inventoryGateway.updateInvItemToDB(oldItem);
 				}
 			} else {
@@ -146,24 +165,27 @@ public class InventoryItemController {
 			parent.showError(ex.getMessage());
 			return;
 		}
-		
+
 		// compare timestamps and reload if different
 		long timeStamp = Main.inventoryGateway.getInvItemTimestamp(oldItem);
 		long oldTimeStamp = inventoryController.itemTimeStamp;
-		
+
 		if (timeStamp != oldTimeStamp) {
 			System.out.println("Timestamps are NOT equal!");
-			JOptionPane.showMessageDialog(parent.panel, "This InventoryItem has been modified since you last opened it.\n" + "\tYour changes have NOT been saved.\n");
+			JOptionPane.showMessageDialog(parent.panel,
+					"This InventoryItem has been modified since you last opened it.\n"
+							+ "\tYour changes have NOT been saved.\n");
 			// set saved time stamp to that of the database
 			inventoryController.itemTimeStamp = timeStamp;
 			// retrieve new information from database and reload
-			InventoryItem i = Main.inventoryGateway.getInvItemFromDBById(oldItem);
+			InventoryItem i = Main.inventoryGateway
+					.getInvItemFromDBById(oldItem);
 			try {
 				oldItem.update(i.getQuantity(), i.getLocation());
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			
+
 			inventoryController.updateInventoryList();
 			parent.syncWithItem();
 			parent.setVisible(false);
