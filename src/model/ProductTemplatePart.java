@@ -17,18 +17,15 @@ public class ProductTemplatePart {
 		updateTemplatePart(true, UUID.randomUUID(), partID, quantity);
 	}
 
-	public ProductTemplatePart(UUID productTemplateID, UUID partID,
-			double quantity) throws Exception {
+	public ProductTemplatePart(UUID productTemplateID, UUID partID, double quantity) throws Exception {
 		updateTemplatePart(true, productTemplateID, partID, quantity);
 	}
 
-	public void updateTemplatePart(UUID productTemplateID, UUID partID,
-			double quantity) throws Exception {
+	public void updateTemplatePart(UUID productTemplateID, UUID partID, double quantity) throws Exception {
 		updateTemplatePart(false, productTemplateID, partID, quantity);
 	}
 
-	private void updateTemplatePart(boolean isNew, UUID productTemplateID,
-			UUID partID, double quantity) throws Exception {
+	private void updateTemplatePart(boolean isNew, UUID productTemplateID, UUID partID, double quantity) throws Exception {
 		setProductTemplateID(productTemplateID);
 		setPartID(partID);
 		setQuantity(quantity);
@@ -74,8 +71,7 @@ public class ProductTemplatePart {
 	}
 
 	public String toString() {
-		return this.getQuantity() + "\t\t"
-				+ Main.partsModel.getPartById(partID).toString();
+		return this.getQuantity() + "\t\t" + Main.partsModel.getPartById(partID).toString();
 	}
 
 	public ProductTemplatePartView getView() {

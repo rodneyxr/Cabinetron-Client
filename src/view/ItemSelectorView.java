@@ -58,8 +58,7 @@ public class ItemSelectorView extends SessionView {
 
 		// link the lists to their respective models
 		partPickerPanel.listParts.setModel(Main.partsModel.getPartList());
-		templatePickerPanel.listTemplates.setModel(Main.templatesModel
-				.getTemplateList());
+		templatePickerPanel.listTemplates.setModel(Main.templatesModel.getTemplateList());
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -134,10 +133,8 @@ public class ItemSelectorView extends SessionView {
 		partPickerPanel.labelPartName.setText(part.getItemName());
 		partPickerPanel.labelPartNumber.setText(part.getPartNumber());
 		partPickerPanel.labelPartVendor.setText(part.getPartVendor());
-		partPickerPanel.labelQuantityUnit.setText(part.getQuantityUnit()
-				.toString());
-		partPickerPanel.labelExternalPartNumber.setText(part
-				.getExternalPartNumber());
+		partPickerPanel.labelQuantityUnit.setText(part.getQuantityUnit().toString());
+		partPickerPanel.labelExternalPartNumber.setText(part.getExternalPartNumber());
 	}
 
 	public Part getSelectedPartInList() {
@@ -147,13 +144,10 @@ public class ItemSelectorView extends SessionView {
 	private void updateInfoForTemplate(ProductTemplate template) {
 		if (template == null)
 			return;
-		templatePickerPanel.labelTemplateID.setText(String.valueOf(template
-				.getItemID()));
+		templatePickerPanel.labelTemplateID.setText(String.valueOf(template.getItemID()));
 		templatePickerPanel.labelProductNumber.setText(template.getItemName());
-		templatePickerPanel.labelQuantityUnit.setText(template
-				.getQuantityUnit().toString());
-		templatePickerPanel.labelTemplateDescription.setText(template
-				.getDescription());
+		templatePickerPanel.labelQuantityUnit.setText(template.getQuantityUnit().toString());
+		templatePickerPanel.labelTemplateDescription.setText(template.getDescription());
 	}
 
 	public ProductTemplate getSelectedTemplateInList() {
@@ -163,14 +157,5 @@ public class ItemSelectorView extends SessionView {
 	public void hideView() {
 		this.setVisible(false);
 	}
-
-	// public void showView() {
-	// this.setVisible(true);
-	// if (inventoryItemView == null || inventoryItemView.getSelectedPart() ==
-	// null)
-	// return;
-	// panel.listParts.setSelectedValue(inventoryItemView.getSelectedPart(),
-	// true);
-	// }
 
 }

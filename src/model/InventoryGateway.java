@@ -18,23 +18,14 @@ public class InventoryGateway extends Gateway {
 	private ResultSet resultSet;
 
 	// new statements
-	String updateTimestamp = 	"UPDATE InventoryItem SET LastModified = ? WHERE inventoryItemID = ?";
-	String getTimestamp =		"SELECT InventoryItem.LastModified FROM InventoryItem WHERE InventoryItem.inventoryItemID = ?";
-	String getItemsByID = 		"SELECT * FROM InventoryItem WHERE inventoryItemID = ?";
-	String deleteItemByID = 	"DELETE FROM InventoryItem WHERE inventoryItemID = ?";
-	String addInvItem = 		"INSERT INTO InventoryItem(stockType,inventoryItemID, itemID, Quantity, Location) VALUES (?,?,?,?,?)";
-	String updateInvItem = 		"UPDATE  InventoryItem SET Quantity = ?, Location = ? WHERE inventoryItemID = ?";
-	String getInvItems = 		"SELECT * FROM InventoryItem";
-	
-	//old statements
-//	String updateTimestamp = 	"UPDATE InventoryPart SET LastModified = ? WHERE InventoryPartId = ?";
-//	String getTimestamp =		"SELECT InventoryPart.LastModified FROM InventoryPart WHERE InventoryPart.InventoryPartId = ?";
-//	String getItemsByID = 		"SELECT * FROM InventoryPart WHERE InventoryPartId = ?";
-//	String deleteItemByID = 	"DELETE FROM InventoryPart WHERE InventoryPartId = ?";
-//	String addInvItem = 		"INSERT INTO InventoryPart(InventoryPartId, PartId, Quantity, Location) VALUES (?,?,?,?)";
-//	String updateInvItem = 		"UPDATE  InventoryPart SET Quantity = ?, Location = ? WHERE InventoryPartId = ?";
-//	String getInvItems = 		"SELECT * FROM InventoryPart";
-	
+	String updateTimestamp = "UPDATE InventoryItem SET LastModified = ? WHERE inventoryItemID = ?";
+	String getTimestamp = "SELECT InventoryItem.LastModified FROM InventoryItem WHERE InventoryItem.inventoryItemID = ?";
+	String getItemsByID = "SELECT * FROM InventoryItem WHERE inventoryItemID = ?";
+	String deleteItemByID = "DELETE FROM InventoryItem WHERE inventoryItemID = ?";
+	String addInvItem = "INSERT INTO InventoryItem(stockType,inventoryItemID, itemID, Quantity, Location) VALUES (?,?,?,?,?)";
+	String updateInvItem = "UPDATE  InventoryItem SET Quantity = ?, Location = ? WHERE inventoryItemID = ?";
+	String getInvItems = "SELECT * FROM InventoryItem";
+
 	public InventoryGateway() throws Exception {
 		DataSource ds = getDataSource();
 		if (ds == null)
@@ -61,6 +52,7 @@ public class InventoryGateway extends Gateway {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * 
 	 * @param inv
@@ -115,7 +107,6 @@ public class InventoryGateway extends Gateway {
 		InventoryItem newItem = null;
 		statement = null;
 		resultSet = null;
-		// TODO: check type of inventory item (assume part for now)
 		try {
 			if (DEBUG)
 				System.out.println("Retriving inv item form db by id");
@@ -133,8 +124,7 @@ public class InventoryGateway extends Gateway {
 			// create inventory item
 			Part newPart = Main.partsModel.getPartById(partID);
 			try {
-				newItem = new PartInventoryItem(newPart, InventoryItemID,
-						quantity, location);
+				newItem = new PartInventoryItem(newPart, InventoryItemID, quantity, location);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -154,8 +144,7 @@ public class InventoryGateway extends Gateway {
 		resultSet = null;
 		try {
 			if (DEBUG)
-				System.out.println("Deleting inv item from db: "
-						+ inv.toString());
+				System.out.println("Deleting inv item from db: " + inv.toString());
 			String sqlStatement = deleteItemByID;
 			statement = connection.prepareStatement(sqlStatement);
 			System.out.println("delting: " + inv.getItemID().toString());
@@ -181,8 +170,7 @@ public class InventoryGateway extends Gateway {
 		resultSet = null;
 		try {
 			if (DEBUG)
-				System.out.println("Adding Inventory Item to DB: "
-						+ inv.toString());
+				System.out.println("Adding Inventory Item to DB: " + inv.toString());
 			String sqlStatement = addInvItem;
 			statement = connection.prepareStatement(sqlStatement);
 			statement.setString(1, inv.getClass().getSimpleName());
@@ -199,32 +187,33 @@ public class InventoryGateway extends Gateway {
 		if (DEBUG)
 			System.out.println("Add Inventory Item to db successful!");
 	}
-//	
-//	/**
-//	 *  @note Old function
-//	 */
-//	public void addInvItemToDB(InventoryItem inv) {
-//		statement = null;
-//		resultSet = null;
-//		try {
-//			if (DEBUG)
-//				System.out.println("Adding Inventory Item to DB: "
-//						+ inv.toString());
-//			String sqlStatement = addInvItem;
-//			statement = connection.prepareStatement(sqlStatement);
-//			statement.setString(1, inv.getItemID().toString());
-//			statement.setString(2, inv.getItem().getItemID().toString());
-//			statement.setDouble(3, inv.getQuantity());
-//			statement.setString(4, inv.getLocation().name());
-//			statement.execute();
-//		} catch (SQLException e) {
-//			if (DEBUG)
-//				System.out.println("Add Inventory Item to db failed!");
-//			e.printStackTrace();
-//		}
-//		if (DEBUG)
-//			System.out.println("Add Inventory Item to db successful!");
-//	}
+
+	//
+	// /**
+	// * @note Old function
+	// */
+	// public void addInvItemToDB(InventoryItem inv) {
+	// statement = null;
+	// resultSet = null;
+	// try {
+	// if (DEBUG)
+	// System.out.println("Adding Inventory Item to DB: "
+	// + inv.toString());
+	// String sqlStatement = addInvItem;
+	// statement = connection.prepareStatement(sqlStatement);
+	// statement.setString(1, inv.getItemID().toString());
+	// statement.setString(2, inv.getItem().getItemID().toString());
+	// statement.setDouble(3, inv.getQuantity());
+	// statement.setString(4, inv.getLocation().name());
+	// statement.execute();
+	// } catch (SQLException e) {
+	// if (DEBUG)
+	// System.out.println("Add Inventory Item to db failed!");
+	// e.printStackTrace();
+	// }
+	// if (DEBUG)
+	// System.out.println("Add Inventory Item to db successful!");
+	// }
 
 	/**
 	 * This function updates an Inventory Item in the DB
@@ -283,14 +272,14 @@ public class InventoryGateway extends Gateway {
 					UUID itemID = UUID.fromString(itemIDString);
 					// create inventory item
 					InventoryItem newInvItem = null;
-					if(stockType.equals("PartInventoryItem")){
+					if (stockType.equals("PartInventoryItem")) {
 						Part newPart = Main.partsModel.getPartById(itemID);
 						newInvItem = new PartInventoryItem(newPart, InventoryItemID, quantity, location);
-					}else if(stockType.equals("ProductInventoryItem")){
+					} else if (stockType.equals("ProductInventoryItem")) {
 						ProductTemplate item = Main.templatesModel.getTemplateByID(itemID);
 						newInvItem = new ProductInventoryItem((ProductTemplate) item, InventoryItemID, quantity, location);
 					}
-					if(newInvItem == null)
+					if (newInvItem == null)
 						throw new Exception("new Inv Item is null");
 					inv.addElement(newInvItem);
 				} catch (Exception e) {
@@ -304,47 +293,5 @@ public class InventoryGateway extends Gateway {
 		}
 		return inv;
 	}
-//	
-//	/**
-//	 * @note old method
-//	 */
-//	public DefaultListModel<InventoryItem> getInvItems() {
-//		DefaultListModel<InventoryItem> inv = new DefaultListModel<InventoryItem>();
-//		statement = null;
-//		resultSet = null;
-//		boolean isNext = true;
-//		try {
-//			statement = connection.prepareStatement(getInvItems);
-//			resultSet = statement.executeQuery();
-//			resultSet.first();
-//			while (isNext) {
-//				// get values from db
-//				try {
-//					if (DEBUG)
-//						System.out.println("Creating invitem list from db");
-//					String partIDString = resultSet.getString("PartId");
-//					String InventoryItemID = resultSet
-//							.getString("InventoryPartId");
-//					double quantity = resultSet.getDouble("Quantity");
-//					String locationString = resultSet.getString("Location");
-//					Location location = Location.valueOf(locationString);
-//					UUID partID = UUID.fromString(partIDString);
-//					// create inventory item
-//					Part newPart = Main.partsModel.getPartById(partID);
-//					if (DEBUG)
-//						System.out.println("part found: " + newPart.toString());
-//					InventoryItem newInvItem = new PartInventoryItem(newPart, InventoryItemID, quantity, location);
-//					inv.addElement(newInvItem);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//				if (!resultSet.next())
-//					isNext = false;
-//			}// end while
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return inv;
-//	}
 
 }

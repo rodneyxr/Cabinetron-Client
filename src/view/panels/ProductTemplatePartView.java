@@ -57,8 +57,7 @@ public class ProductTemplatePartView extends JPanel {
 	public void syncWithTemplatePart() {
 		if (templatePart == null)
 			return;
-		this.textFieldQuantity.setText(Double.toString(templatePart
-				.getQuantity()));
+		this.textFieldQuantity.setText(Double.toString(templatePart.getQuantity()));
 	}
 
 	public void setPart() {
@@ -73,34 +72,34 @@ public class ProductTemplatePartView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				switch (e.getActionCommand()) {
-					case "Update":
-						try {
-							ProductTemplateView.templateController.updateProductTemplatePart(templatePart, getQuantity());
-						} catch (Exception e2) {
-							showError(e2.getMessage());
-							return;
-						}
-						parent.revertRightPanel();
-						break;
+				case "Update":
+					try {
+						ProductTemplateView.templateController.updateProductTemplatePart(templatePart, getQuantity());
+					} catch (Exception e2) {
+						showError(e2.getMessage());
+						return;
+					}
+					parent.revertRightPanel();
+					break;
 
-					case "Create":
-						try {
-							if (parent.getProductTemplate() == null) {
-								if (selectedPart == null)
-									throw new Exception("Error: You need to select a part.");
-								parent.addElementToTemplatePartList(new ProductTemplatePart(selectedPart.getItemID(), getQuantity()));	
-							} else {
-								ProductTemplateView.templateController.createProductTemplatePart(parent.getProductTemplate(), selectedPart, getQuantity());
-							}
-						} catch (Exception e1) {
-							showError(e1.getMessage());
-							return;
+				case "Create":
+					try {
+						if (parent.getProductTemplate() == null) {
+							if (selectedPart == null)
+								throw new Exception("Error: You need to select a part.");
+							parent.addElementToTemplatePartList(new ProductTemplatePart(selectedPart.getItemID(), getQuantity()));
+						} else {
+							ProductTemplateView.templateController.createProductTemplatePart(parent.getProductTemplate(), selectedPart, getQuantity());
 						}
-						parent.revertRightPanel();
-						break;
+					} catch (Exception e1) {
+						showError(e1.getMessage());
+						return;
+					}
+					parent.revertRightPanel();
+					break;
 
-					default:
-						break;
+				default:
+					break;
 
 				}
 			}
@@ -161,8 +160,7 @@ public class ProductTemplatePartView extends JPanel {
 	}
 
 	public static void assignProductTemplatePartView(ProductTemplatePart ptp) {
-		ProductTemplatePartView ptpv = new ProductTemplatePartView(ptp
-				.getTemplate().getView());
+		ProductTemplatePartView ptpv = new ProductTemplatePartView(ptp.getTemplate().getView());
 		ptp.setView(ptpv);
 	}
 

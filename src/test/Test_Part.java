@@ -47,8 +47,7 @@ public class Test_Part {
 	@Test
 	public void partNumber_maxLength() {
 		try {
-			newPart = new Part(partNumber_maxLen, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber_maxLen, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -57,8 +56,7 @@ public class Test_Part {
 	@Test
 	public void partNumber_valid() {
 		try {
-			newPart = new Part(partNumber, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -67,8 +65,7 @@ public class Test_Part {
 	@Test()
 	public void partNumber_lengthInvalid() {
 		try {
-			newPart = new Part(partNumber_maxLen += 'a', partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber_maxLen += 'a', partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 			assertEquals("The part number is too long", e.getMessage());
 		}
@@ -78,8 +75,7 @@ public class Test_Part {
 	@Test
 	public void partName_maxLength() {
 		try {
-			newPart = new Part(partNumber, partName_maxLen, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName_maxLen, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -88,8 +84,7 @@ public class Test_Part {
 	@Test
 	public void partName_valid() {
 		try {
-			newPart = new Part(partNumber, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -98,8 +93,7 @@ public class Test_Part {
 	@Test()
 	public void partName_lengthInvalid() {
 		try {
-			newPart = new Part(partNumber, partName_maxLen += 'a', vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName_maxLen += 'a', vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 			assertEquals("The part name is too long", e.getMessage());
 		}
@@ -109,8 +103,7 @@ public class Test_Part {
 	@Test
 	public void vendor_valid() {
 		try {
-			newPart = new Part(partNumber, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -119,8 +112,7 @@ public class Test_Part {
 	@Test
 	public void vendor_null() {
 		try {
-			newPart = new Part(partNumber, partName, vendor_null,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor_null, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertEquals(null, newPart);
@@ -129,8 +121,7 @@ public class Test_Part {
 	@Test
 	public void vendor_empty() {
 		try {
-			newPart = new Part(partNumber, partName, vendor_empty,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor_empty, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -141,8 +132,7 @@ public class Test_Part {
 	@Test
 	public void quantity_valid() {
 		try {
-			newPart = new Part(partNumber, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertNotEquals(null, newPart);
@@ -151,8 +141,7 @@ public class Test_Part {
 	@Test
 	public void quantity_invalid() {
 		try {
-			newPart = new Part(partNumber, partName, vendor,
-					QuantityUnit.Pieces, "X99");
+			newPart = new Part(partNumber, partName, vendor, QuantityUnit.Pieces, "X99");
 		} catch (Exception e) {
 		}
 		assertEquals(null, newPart);

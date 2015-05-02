@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 import model.QuantityUnit;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class PartManagerPanel extends JPanel {

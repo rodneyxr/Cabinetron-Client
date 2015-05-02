@@ -155,7 +155,6 @@ public class ProductTemplateView extends SessionView {
 				if (o == null)
 					return;
 				if (o instanceof ProductTemplatePart) {
-					System.out.println("ProductTemplateView: mouseClicked()");
 					ProductTemplatePart templatePart = (ProductTemplatePart) o;
 					ProductTemplatePartView templatePartView = new ProductTemplatePartView(ProductTemplateView.this);
 					ProductTemplateView.this.setRightPanel(templatePartView);

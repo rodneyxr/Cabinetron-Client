@@ -37,7 +37,6 @@ public class ProductTemplatesModel {
 		}
 
 		templates.removeElement(template);
-		// TODO: update database
 		Main.productTemplateGateway.deleteProductTemplate(template);
 	}
 
@@ -47,7 +46,6 @@ public class ProductTemplatesModel {
 			return;
 		}
 
-		// TODO: delete template from database
 		Main.productTemplateGateway.deleteProductTemplate(templates.get(index));
 		templates.remove(index);
 	}

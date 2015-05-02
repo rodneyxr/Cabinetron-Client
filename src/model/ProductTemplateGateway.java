@@ -15,7 +15,6 @@ public class ProductTemplateGateway extends Gateway {
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 
-	
 	public ProductTemplateGateway() throws Exception {
 		DataSource ds = getDataSource();
 		if (ds == null)
@@ -30,7 +29,7 @@ public class ProductTemplateGateway extends Gateway {
 			throw new Exception("SQL Error: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -124,8 +123,7 @@ public class ProductTemplateGateway extends Gateway {
 	 * @param productTemplateID
 	 * @param ptp
 	 */
-	public void deleteProductTemplatePart(String productTemplateID,
-			ProductTemplatePart ptp) {
+	public void deleteProductTemplatePart(String productTemplateID, ProductTemplatePart ptp) {
 		statement = null;
 		try {
 			if (DEBUG)
@@ -136,12 +134,10 @@ public class ProductTemplateGateway extends Gateway {
 			statement.setString(2, ptp.getPartID().toString());
 			statement.execute();
 			if (DEBUG)
-				System.out
-						.println("Delete ProductTemplatePart from DB success!");
+				System.out.println("Delete ProductTemplatePart from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
-				System.out
-						.println("Delete ProductTemplatePart from DB failed!");
+				System.out.println("Delete ProductTemplatePart from DB failed!");
 			e.printStackTrace();
 		}
 
@@ -161,12 +157,10 @@ public class ProductTemplateGateway extends Gateway {
 			statement.setString(1, productTemplateID);
 			statement.execute();
 			if (DEBUG)
-				System.out
-						.println("Delete all ProductTemplatePart from DB success!");
+				System.out.println("Delete all ProductTemplatePart from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
-				System.out
-						.println("Delete all ProductTemplatePart from DB failed!");
+				System.out.println("Delete all ProductTemplatePart from DB failed!");
 			e.printStackTrace();
 		}
 
@@ -177,8 +171,7 @@ public class ProductTemplateGateway extends Gateway {
 	 * @param oldPart
 	 * @param quantity
 	 */
-	public void updateProductTemplatePart(ProductTemplatePart oldPart,
-			double quantity) {
+	public void updateProductTemplatePart(ProductTemplatePart oldPart, double quantity) {
 		statement = null;
 		String sql = "UPDATE ProductTemplatePart SET quantity =? WHERE productTemplateID = ? AND partID = ?";
 		try {
@@ -200,8 +193,7 @@ public class ProductTemplateGateway extends Gateway {
 	 * @param productNumber
 	 * @param productDesc
 	 */
-	public void updateProductTemplate(ProductTemplate oldPart,
-			String productNumber, String productDesc) {
+	public void updateProductTemplate(ProductTemplate oldPart, String productNumber, String productDesc) {
 		statement = null;
 		String sql = "UPDATE ProductTemplate SET productNumber =?,productDescription = ? WHERE templateID = ?";
 		try {
@@ -227,8 +219,7 @@ public class ProductTemplateGateway extends Gateway {
 		statement = null;
 		resultSet = null;
 		try {
-			statement = connection
-					.prepareStatement("SELECT * FROM ProductTemplate");
+			statement = connection.prepareStatement("SELECT * FROM ProductTemplate");
 			resultSet = statement.executeQuery();
 			resultSet.first();
 			while (isNext) {
@@ -236,12 +227,9 @@ public class ProductTemplateGateway extends Gateway {
 					// fetch values from the resultSet
 					String templateID = resultSet.getString("templateID");
 					// attempt to create part
-					ProductTemplate pt = new ProductTemplate(templateID,
-							resultSet.getString("productNumber"),
-							resultSet.getString("productDescription"));
+					ProductTemplate pt = new ProductTemplate(templateID, resultSet.getString("productNumber"), resultSet.getString("productDescription"));
 					if (DEBUG)
-						System.out
-								.println("creating ProductTemplate from db... ");
+						System.out.println("creating ProductTemplate from db... ");
 					// add new part to list
 					templates.addElement(pt);
 				} catch (Exception e) {
@@ -256,14 +244,11 @@ public class ProductTemplateGateway extends Gateway {
 		}
 		// get product templates to the created templates
 		for (int i = 0; i < templates.getSize(); i++) {
-			templates.get(i).setTemplateParts(
-					getProductTemplateParts(templates.get(i).getTemplateID()
-							.toString()));
+			templates.get(i).setTemplateParts(getProductTemplateParts(templates.get(i).getTemplateID().toString()));
 			// templates.get(i).templateParts =
 			// getProductTemplateParts(templates.get(i).getTemplateID().toString());
 			if (DEBUG)
-				System.out.println("part " + i + " "
-						+ templates.get(i).getTemplateParts().getSize());
+				System.out.println("part " + i + " " + templates.get(i).getTemplateParts().getSize());
 		}
 		return templates;
 	}
@@ -273,30 +258,24 @@ public class ProductTemplateGateway extends Gateway {
 	 * @param templateID
 	 * @return
 	 */
-	public DefaultListModel<ProductTemplatePart> getProductTemplateParts(
-			String templateID) {
+	public DefaultListModel<ProductTemplatePart> getProductTemplateParts(String templateID) {
 		DefaultListModel<ProductTemplatePart> parts = new DefaultListModel<ProductTemplatePart>();
 		boolean isNext = true;
 		statement = null;
 		resultSet = null;
 		try {
-			statement = connection
-					.prepareStatement("SELECT * FROM ProductTemplatePart WHERE productTemplateID = ?");
+			statement = connection.prepareStatement("SELECT * FROM ProductTemplatePart WHERE productTemplateID = ?");
 			statement.setString(1, templateID);
 			resultSet = statement.executeQuery();
 			resultSet.first();
 			while (isNext) {
 				try {
 					// fetch values from the resultSet
-					ProductTemplatePart ptp = new ProductTemplatePart(
-							UUID.fromString(resultSet
-									.getString("productTemplateID")),
-							UUID.fromString(resultSet.getString("partID")),
+					ProductTemplatePart ptp = new ProductTemplatePart(UUID.fromString(resultSet.getString("productTemplateID")), UUID.fromString(resultSet.getString("partID")),
 							resultSet.getDouble("quantity"));
 					// attempt to create part
 					if (DEBUG)
-						System.out
-								.println("creating ProductTemplatePart from db... : ");
+						System.out.println("creating ProductTemplatePart from db... : ");
 					// add new part to list
 					parts.addElement(ptp);
 				} catch (Exception e) {
@@ -321,8 +300,7 @@ public class ProductTemplateGateway extends Gateway {
 		statement = null;
 		resultSet = null;
 		try {
-			statement = connection
-					.prepareStatement("SELECT * FROM ProductTemplatePart WHERE partID = ?");
+			statement = connection.prepareStatement("SELECT * FROM ProductTemplatePart WHERE partID = ?");
 			statement.setString(1, partID);
 			resultSet = statement.executeQuery();
 			if (resultSet.next())

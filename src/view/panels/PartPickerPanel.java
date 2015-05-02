@@ -15,7 +15,7 @@ import javax.swing.ListSelectionModel;
 import model.Part;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class PartPickerPanel extends JPanel {

@@ -28,8 +28,7 @@ public class PartPickerView extends SessionView {
 	 * 
 	 * @param inventory
 	 */
-	public PartPickerView(PartsModel partsModel,
-			InventoryItemView inventoryItemView) {
+	public PartPickerView(PartsModel partsModel, InventoryItemView inventoryItemView) {
 		super("Cabinetron Part Picker");
 		this.inventoryItemView = inventoryItemView;
 
@@ -92,11 +91,9 @@ public class PartPickerView extends SessionView {
 
 	public void showView() {
 		this.setVisible(true);
-		if (inventoryItemView == null
-				|| inventoryItemView.getSelectedItem() == null)
+		if (inventoryItemView == null || inventoryItemView.getSelectedItem() == null)
 			return;
-		panel.listParts.setSelectedValue(inventoryItemView.getSelectedItem(),
-				true);
+		panel.listParts.setSelectedValue(inventoryItemView.getSelectedItem(), true);
 	}
 
 	public void hideView() {

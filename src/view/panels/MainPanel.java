@@ -18,7 +18,7 @@ import model.Part;
 import model.ProductTemplate;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class MainPanel extends JPanel {

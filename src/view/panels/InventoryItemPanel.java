@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 import model.Location;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class InventoryItemPanel extends JPanel {

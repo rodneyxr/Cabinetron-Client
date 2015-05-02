@@ -40,7 +40,6 @@ import controller.SessionController;
  */
 
 public class Main {
-
 	public static boolean DEBUG_MODE = true;
 
 	// user session variables
@@ -164,7 +163,6 @@ public class Main {
 
 	public static void login(String email, char[] passwordArray) {
 		if (Main.DEBUG_MODE) {
-			// userSession = Authenticator.authenticateUser("ragnarnelson@email.com", "password");
 			userSession = authenticator.authenticateUser("ragnarnelson@email.com", "password");
 			System.out.println("User authenticated: " + userSession.getUser().getName());
 			hideSplashScreen();
@@ -175,7 +173,6 @@ public class Main {
 		String password = new String(passwordArray);
 		// authenticate new user
 		try {
-			// userSession = Authenticator.authenticateUser(email, password);
 			userSession = authenticator.authenticateUser(email, password);
 			if (userSession == null)
 				throw new Exception("Your login information is incorrect!");

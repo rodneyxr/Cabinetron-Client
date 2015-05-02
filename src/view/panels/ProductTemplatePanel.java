@@ -19,7 +19,7 @@ import javax.swing.ListSelectionModel;
 import model.ProductTemplatePart;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class ProductTemplatePanel extends JPanel {

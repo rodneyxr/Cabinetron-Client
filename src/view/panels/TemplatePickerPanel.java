@@ -15,7 +15,7 @@ import javax.swing.ListSelectionModel;
 import model.ProductTemplate;
 
 /**
- *
+ * 
  * @author Rodney
  */
 public class TemplatePickerPanel extends JPanel {
