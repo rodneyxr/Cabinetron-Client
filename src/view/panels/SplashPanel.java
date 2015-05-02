@@ -1,5 +1,6 @@
 package view.panels;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,7 +14,7 @@ public class SplashPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private String flag;
 	private BufferedImage img;
-	private String loading = "src/res/splashscreen.gif";
+	// private String loading = "src/res/splashscreen.gif";
 	private String noConnection = "src/res/splashnoConnection.png";
 
 	public SplashPanel(String flag) {
@@ -24,13 +25,16 @@ public class SplashPanel extends JPanel {
 	@Override
 	public void paintComponent(Graphics page) {
 		super.paintComponent(page);
-		page.drawImage(img, 0, 0, null);
+		if (flag.equals("noConnection"))
+			page.drawImage(img, 0, 0, null);
+		else
+			super.setBackground(Color.DARK_GRAY);
 	}
 
 	private void initComponents() {
 		String urlString = "";
 		if (flag.equals("load")) {
-			urlString = loading;
+			return;
 		}
 		if (flag.equals("noConnection")) {
 			urlString = noConnection;

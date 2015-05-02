@@ -14,7 +14,7 @@ import model.QuantityUnit;
 import view.panels.PartManagerPanel;
 import controller.PartController;
 
-public class PartView extends JFrame implements Cloneable {
+public class PartView extends SessionView implements Cloneable {
 
 	private static final long serialVersionUID = 1L;
 	private PartManagerPanel panel;
@@ -43,11 +43,11 @@ public class PartView extends JFrame implements Cloneable {
 
 	{
 		try {
-	        setIconImage(ImageIO.read(new File("src/res/icon.png")));
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
+			setIconImage(ImageIO.read(new File("src/res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		this.setSize(480, 420);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
@@ -123,7 +123,7 @@ public class PartView extends JFrame implements Cloneable {
 	public PartView clone() {
 		return new PartView(this);
 	}
-	
+
 	@Override
 	public void setVisible(boolean b) {
 		syncWithPart();

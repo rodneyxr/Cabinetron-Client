@@ -22,7 +22,7 @@ import view.panels.ProductTemplatePartView;
 import controller.ControllerUtils;
 import controller.ProductTemplateController;
 
-public class ProductTemplateView extends JFrame {
+public class ProductTemplateView extends SessionView {
 	private static final long serialVersionUID = 1L;
 
 	public static ProductTemplateController templateController;
@@ -34,13 +34,13 @@ public class ProductTemplateView extends JFrame {
 
 	public ProductTemplateView() {
 		super("Cabinetron: Product Template");
-		
+
 		try {
-	        setIconImage(ImageIO.read(new File("src/res/icon.png")));
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		
+			setIconImage(ImageIO.read(new File("src/res/icon.png")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		this.setSize(800, 450);
 		this.setMinimumSize(new Dimension(800, 450));
 		this.setResizable(true);
@@ -243,9 +243,9 @@ public class ProductTemplateView extends JFrame {
 	}
 
 	public void removePartByPartID(String partid) {
-		for(int i = 0; i < partsList.getSize(); i++){
+		for (int i = 0; i < partsList.getSize(); i++) {
 			ProductTemplatePart ptp = partsList.get(i);
-			if(ptp.getPartID().toString().equals(partid)){
+			if (ptp.getPartID().toString().equals(partid)) {
 				partsList.remove(i);
 			}
 		}

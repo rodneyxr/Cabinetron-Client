@@ -1,8 +1,13 @@
-package model;
+package session;
 
-import model.Authenticator.Role;
+import java.io.Serializable;
 
-public class Session {
+public class Session implements Serializable {
+	private static final long serialVersionUID = 7648688658648829803L;
+
+	enum Role {
+		Admin, ProdManager, InvManager
+	}
 
 	private Role role;
 	private User user;
@@ -24,13 +29,12 @@ public class Session {
 		return role.equals(Role.ProdManager) || role.equals(Role.Admin);
 	}
 
-	public boolean canCreateProducts() { // TODO: implement this
+	public boolean canCreateProducts() {
 		return role.equals(Role.ProdManager) || role.equals(Role.Admin);
 	}
 
 	public boolean canViewInventory() {
-		return role.equals(Role.ProdManager) || role.equals(Role.InvManager)
-				|| role.equals(Role.Admin);
+		return role.equals(Role.ProdManager) || role.equals(Role.InvManager) || role.equals(Role.Admin);
 	}
 
 	public boolean canAddInventory() {
@@ -42,8 +46,7 @@ public class Session {
 	}
 
 	public boolean canViewParts() {
-		return role.equals(Role.ProdManager) || role.equals(Role.InvManager)
-				|| role.equals(Role.Admin);
+		return role.equals(Role.ProdManager) || role.equals(Role.InvManager) || role.equals(Role.Admin);
 	}
 
 	public boolean canAddParts() {

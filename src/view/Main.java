@@ -1,13 +1,20 @@
 package view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Properties;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import model.Authenticator;
 import model.InventoryGateway;
 import model.InventoryItem;
 import model.InventoryModel;
@@ -17,33 +24,46 @@ import model.PartsModel;
 import model.ProductTemplate;
 import model.ProductTemplateGateway;
 import model.ProductTemplatesModel;
-import model.Session;
-import model.User;
+import session.AuthenticatorRemote;
+import session.Session;
+import session.User;
 import controller.InventoryController;
 import controller.InventoryItemController;
 import controller.PartController;
 import controller.ProductTemplateController;
+import controller.SessionController;
 
 /**
  * 
- * CS 4743 Assignment 4 by Steven Petroff, Rodney Rodriguez
+ * CS 4743 Cabinetron by Steven Petroff, Rodney Rodriguez Assignment 6 by Rodney Rodriguez
  * 
  */
 
 public class Main {
+
+	public static boolean DEBUG_MODE = true;
+
 	// user session variables
 	public static Session userSession;
 	public static User user;
 
 	public static PartsModel partsModel = new PartsModel();
 	public static ProductTemplatesModel templatesModel = new ProductTemplatesModel();
-	public static InventoryModel inventoryModel = new InventoryModel();;
+	public static InventoryModel inventoryModel = new InventoryModel();
 	public static PartGateway partGateway;
 	public static InventoryGateway inventoryGateway;
 	public static ProductTemplateGateway productTemplateGateway;
 	private static SplashScreen splashScreen;
+	public static SessionController sessionController = new SessionController();
+
+	private static AuthenticatorRemote authenticator;
+
+	private static boolean loaded = false;
 
 	public static void main(String[] args) {
+		// if (!Main.DEBUG_MODE)
+		initSession();
+
 		new Runnable() {
 			@Override
 			public void run() {
@@ -53,10 +73,25 @@ public class Main {
 
 	}
 
+	private static void initSession() {
+		System.out.println("Connecting to bean...");
+		try {
+			Properties props = new Properties();
+			props.put("org.omg.CORBA.ORBInitialHost", "localhost");
+			props.put("org.omg.CORBA.ORBInitialPort", "3700");
+
+			InitialContext itx = new InitialContext(props);
+			authenticator = (AuthenticatorRemote) itx.lookup("java:global/cabinetron_bean/Authenticator!session.AuthenticatorRemote");
+			System.out.println("Successfully connected!");
+		} catch (NamingException e1) {
+			e1.printStackTrace();
+		}
+	}
+
 	private static void startClient() {
 		if (partGateway != null && inventoryGateway != null && productTemplateGateway != null) {
 
-			MainView mainView = new MainView(inventoryModel, partsModel, templatesModel);
+			final MainView mainView = new MainView(inventoryModel, partsModel, templatesModel);
 			InventoryController inventoryController = new InventoryController(inventoryModel, partsModel, templatesModel, mainView);
 			InventoryItemView.inventoryItemController = new InventoryItemController(inventoryController);
 			InventoryItemView.inventoryController = inventoryController;
@@ -70,6 +105,24 @@ public class Main {
 			mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			mainView.setVisible(true);
 
+			// set the menu bar
+			JMenuBar menuBar = new JMenuBar();
+			JMenu menu = new JMenu("Session");
+			JMenuItem itemLogout = new JMenuItem("Logout");
+			itemLogout.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println(userSession.getUser().getName() + " logged out.");
+					userSession = null;
+					sessionController.logout();
+					Main.showSplashScreen("load");
+				}
+			});
+
+			menu.add(itemLogout);
+			menuBar.add(menu);
+			mainView.setJMenuBar(menuBar);
+
 		} else {
 			new Runnable() {
 				@Override
@@ -77,12 +130,7 @@ public class Main {
 					Main.showSplashScreen("noConnection");
 				}
 			}.run();
-			try {
-				Thread.sleep(2000);
-				hideSplashScreen();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			hideSplashScreen();
 		}
 	}
 
@@ -94,7 +142,6 @@ public class Main {
 		InventoryItemView.partsModel = partsModel;
 
 		try {
-
 			partGateway = new PartGateway();
 			inventoryGateway = new InventoryGateway();
 			productTemplateGateway = new ProductTemplateGateway();
@@ -105,61 +152,66 @@ public class Main {
 
 			templates = productTemplateGateway.getProductTemplates();
 			templatesModel.setTemplatesFromDB(templates);
-			
+
 			inv = inventoryGateway.getInvItems();
 			inventoryModel.setInventoryFromDB(inv);
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.toString();
 			e.getMessage();
 		}
 	}
 
-	public static void login(String name) {
-		String email = "";
-		if (name.equals("Tom Jones"))
-			email = "TomJones@email.com";
-		if (name.equals("Sue Smith"))
-			email = "SueSmith@email.com";
-		if (name.equals("Ragnar Nelson"))
-			email = "RagnarNelson@email.com";
+	public static void login(String email, char[] passwordArray) {
+		if (Main.DEBUG_MODE) {
+			// userSession = Authenticator.authenticateUser("ragnarnelson@email.com", "password");
+			userSession = authenticator.authenticateUser("ragnarnelson@email.com", "password");
+			System.out.println("User authenticated: " + userSession.getUser().getName());
+			hideSplashScreen();
+			startClient();
+			return;
+		}
 
-		// create new user
-		user = new User(name, email);
+		String password = new String(passwordArray);
 		// authenticate new user
-
 		try {
-			userSession = Authenticator.authenticateUser(user);
-			System.out.println("User authenticated: "
-					+ userSession.getUser().getName());
+			// userSession = Authenticator.authenticateUser(email, password);
+			userSession = authenticator.authenticateUser(email, password);
+			if (userSession == null)
+				throw new Exception("Your login information is incorrect!");
+			System.out.println("User authenticated: " + userSession.getUser().getName());
 			hideSplashScreen();
 			startClient();
 		} catch (Exception e) {
-			e.printStackTrace();
+			splashScreen.showError(e.getMessage());
 		}
-
 	}
 
 	public static void showSplashScreen(String flag) {
+		if (loaded) {
+			splashScreen.setVisible(true);
+			return;
+		}
+
 		splashScreen = new SplashScreen(flag);
-		splashScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		splashScreen.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		splashScreen.setBackground(Color.BLACK);
 		splashScreen.setSize(800, 600);
 		splashScreen.setResizable(true);
 		splashScreen.setLocationRelativeTo(null);
-		splashScreen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		splashScreen.setUndecorated(true);
 		splashScreen.setVisible(true);
-		if (flag.equals("load"))
+		if (flag.equals("load")) {
 			Main.fetchFromDB();
+			loaded = true;
+		}
 		splashScreen.loginPage();
 		splashScreen.revalidate();
 	}
 
 	public static void hideSplashScreen() {
-		splashScreen.dispose();
+		splashScreen.setVisible(false);
+		splashScreen.resetForm();
 	}
 
 	private static final JPanel ERROR_DIALOG_PANEL = new JPanel();

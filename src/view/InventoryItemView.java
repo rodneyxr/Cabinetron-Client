@@ -18,7 +18,7 @@ import view.panels.InventoryItemPanel;
 import controller.InventoryController;
 import controller.InventoryItemController;
 
-public class InventoryItemView extends JFrame {
+public class InventoryItemView extends SessionView {
 	private static final long serialVersionUID = 1L;
 
 	// inventory model

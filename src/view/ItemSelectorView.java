@@ -21,7 +21,7 @@ import model.ProductTemplate;
 import view.panels.PartPickerPanel;
 import view.panels.TemplatePickerPanel;
 
-public class ItemSelectorView extends JFrame {
+public class ItemSelectorView extends SessionView {
 	private static final long serialVersionUID = 1L;
 
 	private JTabbedPane tabbedPane;

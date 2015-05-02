@@ -17,7 +17,7 @@ import model.Part;
 import model.PartsModel;
 import view.panels.PartPickerPanel;
 
-public class PartPickerView extends JFrame {
+public class PartPickerView extends SessionView {
 	private static final long serialVersionUID = 1L;
 
 	private PartPickerPanel panel;
