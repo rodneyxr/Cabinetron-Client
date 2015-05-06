@@ -15,6 +15,7 @@ import model.Item;
 import model.Location;
 import model.PartsModel;
 import view.panels.InventoryItemPanel;
+import view.panels.ItemLogPanel;
 import controller.InventoryController;
 import controller.InventoryItemController;
 
@@ -97,17 +98,11 @@ public class InventoryItemView extends SessionView {
 		return (Location) panel.comboBoxLocation.getSelectedItem();
 	}
 
-	// public void updateInventoryList() {
-	// panel.listInventoryItems.updateUI();
-	// }
-
 	private void activateListeners() {
 		// open part picker button
 		panel.buttonSelectedPart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("InventoryItemView: 'Select Part' button clicked.");
-				// InventoryItemView.this.partPickerView.showView();
 				InventoryItemView.this.itemSelectorView.setVisible(true);
 			}
 		});
@@ -116,11 +111,24 @@ public class InventoryItemView extends SessionView {
 		panel.buttonAddItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					inventoryItemController.addInventoryItem(InventoryItemView.this);
-				} catch (Exception ex) {
-					showError(ex.getMessage());
+
+				switch (e.getActionCommand()) {
+				case "Add Item":
+					System.out.println("InventoryItemView: Add Item button clicked!");
+					try {
+						inventoryItemController.addInventoryItem(InventoryItemView.this);
+					} catch (Exception ex) {
+						showError(ex.getMessage());
+					}
+					break;
+
+				case "View Log":
+					System.out.println("InventoryItemView: View Log button clicked!");
+					// TODO: show item log
+					new ItemLogView().setVisible(true);
+					break;
 				}
+
 			}
 		});
 
@@ -178,7 +186,7 @@ public class InventoryItemView extends SessionView {
 	 */
 	public void setUpdateOnly() {
 		panel.buttonSelectedPart.setEnabled(false);
-		panel.buttonAddItem.setVisible(false);
+		panel.buttonAddItem.setText("View Log");
 	}
 
 	public static void assignItemView(InventoryItem item) {

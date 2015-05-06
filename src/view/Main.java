@@ -23,6 +23,7 @@ import model.ProductTemplate;
 import model.ProductTemplatesModel;
 import session.AuthenticatorRemote;
 import session.Session;
+import session.Session.Role;
 import session.User;
 import controller.InventoryController;
 import controller.InventoryItemController;
@@ -60,8 +61,8 @@ public class Main {
 	private static boolean loaded = false;
 
 	public static void main(String[] args) {
-		// if (!Main.DEBUG_MODE)
-		initSession();
+		if (!Main.DEBUG_MODE)
+			initSession();
 
 		new Runnable() {
 			@Override
@@ -162,18 +163,14 @@ public class Main {
 	}
 
 	public static void login(String email, char[] passwordArray) {
-		if (Main.DEBUG_MODE) {
-			userSession = authenticator.authenticateUser("ragnarnelson@email.com", "password");
-			System.out.println("User authenticated: " + userSession.getUser().getName());
-			hideSplashScreen();
-			startClient();
-			return;
-		}
 
 		String password = new String(passwordArray);
 		// authenticate new user
 		try {
-			userSession = authenticator.authenticateUser(email, password);
+			if (Main.DEBUG_MODE)
+				userSession = new Session(new User("Ragnar Nelson", "ragnarnelson@email.com", 2), Role.Admin);
+			else
+				userSession = authenticator.authenticateUser(email, password);
 			if (userSession == null)
 				throw new Exception("Your login information is incorrect!");
 			System.out.println("User authenticated: " + userSession.getUser().getName());

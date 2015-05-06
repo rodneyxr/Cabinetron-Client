@@ -13,7 +13,7 @@ import model.ProductTemplate;
 import model.ProductTemplatePart;
 
 public class SQLGateway extends Gateway {
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 	private Connection connection;
 	private PreparedStatement statement;
 	private ResultSet resultSet;
