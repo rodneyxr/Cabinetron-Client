@@ -15,14 +15,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import model.InventoryGateway;
 import model.InventoryItem;
 import model.InventoryModel;
 import model.Part;
-import model.PartGateway;
 import model.PartsModel;
 import model.ProductTemplate;
-import model.ProductTemplateGateway;
 import model.ProductTemplatesModel;
 import session.AuthenticatorRemote;
 import session.Session;
@@ -32,6 +29,9 @@ import controller.InventoryItemController;
 import controller.PartController;
 import controller.ProductTemplateController;
 import controller.SessionController;
+import database.InventoryGateway;
+import database.PartGateway;
+import database.ProductTemplateGateway;
 
 /**
  * 

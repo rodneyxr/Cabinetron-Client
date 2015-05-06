@@ -6,7 +6,6 @@ import view.InventoryItemView;
 
 public abstract class InventoryItem {
 
-	// private Part part;
 	private Item item;
 	private UUID itemID;
 	private double quantity;
@@ -32,7 +31,6 @@ public abstract class InventoryItem {
 
 		if (isNewItem) {
 			generateItemID();
-			// setPart(part);
 		}
 
 		if (!isNewItem && quantity == 0.0)

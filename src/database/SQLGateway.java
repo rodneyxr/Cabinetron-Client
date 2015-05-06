@@ -1,4 +1,4 @@
-package model;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,13 +9,16 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import javax.swing.DefaultListModel;
 
-public class ProductTemplateGateway extends Gateway {
-	private static final boolean DEBUG = false;
+import model.ProductTemplate;
+import model.ProductTemplatePart;
+
+public class SQLGateway extends Gateway {
+	private static final boolean DEBUG = true;
 	private Connection connection;
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 
-	public ProductTemplateGateway() throws Exception {
+	public SQLGateway() throws Exception {
 		DataSource ds = getDataSource();
 		if (ds == null)
 			throw new Exception("Datasource is null");
@@ -30,9 +33,6 @@ public class ProductTemplateGateway extends Gateway {
 		}
 	}
 
-	/**
-	 * 
-	 */
 	public void close() {
 		if (DEBUG)
 			System.out.println("Closing db connection...");
@@ -45,10 +45,7 @@ public class ProductTemplateGateway extends Gateway {
 		}
 	}
 
-	/**
-	 * 
-	 * @param pt
-	 */
+	// add new product template
 	public void addProductTemplatetoDB(ProductTemplate pt) {
 		statement = null;
 		try {
@@ -73,11 +70,7 @@ public class ProductTemplateGateway extends Gateway {
 
 	}
 
-	/**
-	 * 
-	 * @param ptp
-	 * @return
-	 */
+	// add product template parts
 	public int addProductTemplatePart(ProductTemplatePart ptp) {
 		statement = null;
 		String sql = "INSERT INTO ProductTemplatePart(productTemplateID, partID,quantity) VALUES (?,?,?)";
@@ -95,10 +88,7 @@ public class ProductTemplateGateway extends Gateway {
 		return 1;
 	}
 
-	/**
-	 * 
-	 * @param pt
-	 */
+	// delete product template
 	public void deleteProductTemplate(ProductTemplate pt) {
 		statement = null;
 		try {
@@ -118,11 +108,7 @@ public class ProductTemplateGateway extends Gateway {
 
 	}
 
-	/**
-	 * 
-	 * @param productTemplateID
-	 * @param ptp
-	 */
+	// delete product template part
 	public void deleteProductTemplatePart(String productTemplateID, ProductTemplatePart ptp) {
 		statement = null;
 		try {
@@ -143,10 +129,7 @@ public class ProductTemplateGateway extends Gateway {
 
 	}
 
-	/**
-	 * 
-	 * @param productTemplateID
-	 */
+	// delete product template parts
 	public void deleteAllProductTemplateParts(String productTemplateID) {
 		statement = null;
 		try {
@@ -166,11 +149,7 @@ public class ProductTemplateGateway extends Gateway {
 
 	}
 
-	/**
-	 * 
-	 * @param oldPart
-	 * @param quantity
-	 */
+	// update template part
 	public void updateProductTemplatePart(ProductTemplatePart oldPart, double quantity) {
 		statement = null;
 		String sql = "UPDATE ProductTemplatePart SET quantity =? WHERE productTemplateID = ? AND partID = ?";
@@ -187,12 +166,7 @@ public class ProductTemplateGateway extends Gateway {
 		}
 	}
 
-	/**
-	 * 
-	 * @param oldPart
-	 * @param productNumber
-	 * @param productDesc
-	 */
+	// update product template
 	public void updateProductTemplate(ProductTemplate oldPart, String productNumber, String productDesc) {
 		statement = null;
 		String sql = "UPDATE ProductTemplate SET productNumber =?,productDescription = ? WHERE templateID = ?";
@@ -209,10 +183,7 @@ public class ProductTemplateGateway extends Gateway {
 		}
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
+	// load previous product templates
 	public DefaultListModel<ProductTemplate> getProductTemplates() {
 		DefaultListModel<ProductTemplate> templates = new DefaultListModel<ProductTemplate>();
 		boolean isNext = true;
@@ -245,19 +216,12 @@ public class ProductTemplateGateway extends Gateway {
 		// get product templates to the created templates
 		for (int i = 0; i < templates.getSize(); i++) {
 			templates.get(i).setTemplateParts(getProductTemplateParts(templates.get(i).getTemplateID().toString()));
-			// templates.get(i).templateParts =
-			// getProductTemplateParts(templates.get(i).getTemplateID().toString());
-			if (DEBUG)
-				System.out.println("part " + i + " " + templates.get(i).getTemplateParts().getSize());
+			// templates.get(i).templateParts = getProductTemplateParts(templates.get(i).getTemplateID().toString());
+			// if (DEBUG)System.out.println("part "+i +" "+templates.get(i).getTemplateParts().getSize());
 		}
 		return templates;
 	}
 
-	/**
-	 * 
-	 * @param templateID
-	 * @return
-	 */
 	public DefaultListModel<ProductTemplatePart> getProductTemplateParts(String templateID) {
 		DefaultListModel<ProductTemplatePart> parts = new DefaultListModel<ProductTemplatePart>();
 		boolean isNext = true;
@@ -291,11 +255,6 @@ public class ProductTemplateGateway extends Gateway {
 		return parts;
 	}
 
-	/**
-	 * 
-	 * @param partID
-	 * @return
-	 */
 	public boolean partIsInTemplate(String partID) {
 		statement = null;
 		resultSet = null;

@@ -1,4 +1,4 @@
-package model;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,9 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 import javax.swing.DefaultListModel;
+
+import model.Part;
+import model.QuantityUnit;
 
 public class PartGateway extends Gateway {
 	private static final boolean DEBUG = false;

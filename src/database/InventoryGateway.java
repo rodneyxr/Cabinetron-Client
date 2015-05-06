@@ -1,4 +1,4 @@
-package model;
+package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +9,12 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import javax.swing.DefaultListModel;
 
+import model.InventoryItem;
+import model.Location;
+import model.Part;
+import model.PartInventoryItem;
+import model.ProductInventoryItem;
+import model.ProductTemplate;
 import view.Main;
 
 public class InventoryGateway extends Gateway {
