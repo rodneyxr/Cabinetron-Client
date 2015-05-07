@@ -112,7 +112,8 @@ public class ProductTemplateGateway extends Gateway {
 			statement.setString(1, pt.getTemplateID().toString());
 			statement.execute();
 			deleteAllProductTemplateParts(pt.getTemplateID().toString());
-			System.out.println("Delete ProductTemplate from DB success!");
+			if (DEBUG)
+				System.out.println("Delete ProductTemplate from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
 				System.out.println("Delete ProductTemplate from DB failed!");

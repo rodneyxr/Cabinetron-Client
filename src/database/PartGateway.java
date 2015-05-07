@@ -17,7 +17,6 @@ public class PartGateway extends Gateway {
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 
-	
 	public PartGateway() throws Exception {
 		DataSource ds = getDataSource();
 		if (ds == null)
@@ -32,8 +31,7 @@ public class PartGateway extends Gateway {
 			throw new Exception("SQL Error: " + e.getMessage());
 		}
 	}
-	
-	
+
 	public void close() {
 		if (DEBUG)
 			System.out.println("Closing db connection...");
@@ -60,7 +58,8 @@ public class PartGateway extends Gateway {
 			statement = connection.prepareStatement(sqlStatement);
 			statement.setString(1, part.getItemID().toString());
 			statement.execute();
-			System.out.println("Delete part from DB success!");
+			if (DEBUG)
+				System.out.println("Delete part from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
 				System.out.println("Delete part from DB failed!");
@@ -78,9 +77,7 @@ public class PartGateway extends Gateway {
 		try {
 			if (DEBUG)
 				System.out.println("Updating part to db:" + part.toString());
-			String sqlStatement = "UPDATE  Part SET PartNumber = ?, PartVendor = ?,"
-					+ "PartName = ?, PartUnit = ?, PartExternalNumber = ?"
-					+ "WHERE PartId = ?";
+			String sqlStatement = "UPDATE  Part SET PartNumber = ?, PartVendor = ?," + "PartName = ?, PartUnit = ?, PartExternalNumber = ?" + "WHERE PartId = ?";
 			statement = connection.prepareStatement(sqlStatement);
 			statement.setString(1, part.getPartNumber());
 			statement.setString(2, part.getPartVendor());
@@ -108,8 +105,7 @@ public class PartGateway extends Gateway {
 		try {
 			if (DEBUG)
 				System.out.println("Adding part to db...");
-			String sqlStatement = "INSERT INTO Part(PartId, PartNumber, PartVendor,PartName, PartUnit, PartExternalNumber) VALUES"
-					+ "(?,?,?,?,?,?)";
+			String sqlStatement = "INSERT INTO Part(PartId, PartNumber, PartVendor,PartName, PartUnit, PartExternalNumber) VALUES" + "(?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sqlStatement);
 			statement.setString(1, part.getItemID().toString());
 			statement.setString(2, part.getPartNumber());
@@ -147,16 +143,13 @@ public class PartGateway extends Gateway {
 					String partNumber = resultSet.getString("PartNumber");
 					String vendor = resultSet.getString("PartVendor");
 					String partName = resultSet.getString("PartName");
-					String externalPartNumber = resultSet
-							.getString("PartExternalNumber");
+					String externalPartNumber = resultSet.getString("PartExternalNumber");
 					String quString = resultSet.getString("PartUnit");
 					QuantityUnit qu = QuantityUnit.valueOf(quString);
 					// attempt to create part
 					if (DEBUG)
-						System.out.println("creating part from db... : "
-								+ partNumber);
-					Part newPart = new Part(partID.toString(), partNumber,
-							partName, vendor, qu, externalPartNumber);
+						System.out.println("creating part from db... : " + partNumber);
+					Part newPart = new Part(partID.toString(), partNumber, partName, vendor, qu, externalPartNumber);
 					// set partID
 					newPart.setPartID(partID);
 					// add new part to list

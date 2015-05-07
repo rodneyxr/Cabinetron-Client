@@ -13,6 +13,7 @@ public abstract class SessionView extends JFrame {
 	}
 
 	public void logout() {
-		this.setVisible(false);
+		// this.setVisible(false);
+		this.dispose();
 	}
 }

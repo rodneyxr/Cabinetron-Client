@@ -1,8 +1,13 @@
 package database;
 
+import java.util.Set;
+
 import model.InventoryItem;
+import model.InventoryItemLog;
 import model.InventoryItemLogEntry;
 import redis.clients.jedis.Jedis;
+import view.Main;
+import controller.ControllerUtils;
 
 // Redis DB #42
 public class InventoryItemLogGateway {
@@ -12,9 +17,43 @@ public class InventoryItemLogGateway {
 	public InventoryItemLogGateway() {
 	}
 
-	public void addLogEntry(InventoryItem item, InventoryItemLogEntry entry) {
+	public InventoryItemLog getLog(InventoryItem item) {
+		if (Main.DEBUG_MODE)
+			System.out.println("InventoryItemLogGateway->getLog(): " + getKeyForItem(item)); // DEBUG
 		Jedis jedis = open();
-		System.out.println(getKeyForItem(item));
+
+		// instantiate log to return
+		InventoryItemLog log = new InventoryItemLog();
+
+		// get key and retrieve the set of entries from the DB
+		String key = getKeyForItem(item);
+		long cardinality = jedis.zcard(key);
+		Set<String> blobs = jedis.zrange(key, 0, cardinality);
+		System.out.println("Cardinality: " + cardinality + ", Size: " + blobs.size()); // DEBUG
+
+		// add them to the log object
+		for (String blob : blobs) {
+			log.addLogEntry((InventoryItemLogEntry) ControllerUtils.deblobify(blob));
+		}
+
+		jedis.close();
+		return log;
+	}
+
+	public void addLogEntry(InventoryItem item, InventoryItemLogEntry entry) {
+		System.out.println("InventoryItemLogGateway->addLogEntry(): " + getKeyForItem(item)); // DEBUG
+		System.out.println(entry); // DEBUG
+		Jedis jedis = open();
+
+		String key = getKeyForItem(item);
+		// get cardinality of set to append to the end of the ordered set
+		long insertPos = jedis.zcard(key);
+		if (insertPos > 0)
+			insertPos += 1;
+
+		// add entry to the end of the ordered set
+		jedis.zadd(key, insertPos, ControllerUtils.blobify(entry));
+
 		jedis.close();
 	}
 
@@ -31,5 +70,4 @@ public class InventoryItemLogGateway {
 		jedis.select(42);
 		return jedis;
 	}
-// TODO: append an entry onto inventory_item_log.eb6cd3dc-2475-47d7-bf0e-06f85ea1f5d6 
 }

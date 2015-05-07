@@ -99,7 +99,8 @@ public class SQLGateway extends Gateway {
 			statement.setString(1, pt.getTemplateID().toString());
 			statement.execute();
 			deleteAllProductTemplateParts(pt.getTemplateID().toString());
-			System.out.println("Delete ProductTemplate from DB success!");
+			if (DEBUG)
+				System.out.println("Delete ProductTemplate from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
 				System.out.println("Delete ProductTemplate from DB failed!");
@@ -216,8 +217,6 @@ public class SQLGateway extends Gateway {
 		// get product templates to the created templates
 		for (int i = 0; i < templates.getSize(); i++) {
 			templates.get(i).setTemplateParts(getProductTemplateParts(templates.get(i).getTemplateID().toString()));
-			// templates.get(i).templateParts = getProductTemplateParts(templates.get(i).getTemplateID().toString());
-			// if (DEBUG)System.out.println("part "+i +" "+templates.get(i).getTemplateParts().getSize());
 		}
 		return templates;
 	}

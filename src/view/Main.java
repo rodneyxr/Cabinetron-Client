@@ -31,6 +31,7 @@ import controller.PartController;
 import controller.ProductTemplateController;
 import controller.SessionController;
 import database.InventoryGateway;
+import database.InventoryItemLogGateway;
 import database.PartGateway;
 import database.ProductTemplateGateway;
 
@@ -53,9 +54,10 @@ public class Main {
 	public static PartGateway partGateway;
 	public static InventoryGateway inventoryGateway;
 	public static ProductTemplateGateway productTemplateGateway;
-	private static SplashScreen splashScreen;
 	public static SessionController sessionController = new SessionController();
+	public static InventoryItemLogGateway itemLogGateway = new InventoryItemLogGateway();
 
+	private static SplashScreen splashScreen;
 	private static AuthenticatorRemote authenticator;
 
 	private static boolean loaded = false;

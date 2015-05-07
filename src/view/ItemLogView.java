@@ -7,6 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
+import model.InventoryItem;
 import view.panels.ItemLogPanel;
 
 public class ItemLogView extends SessionView {
@@ -14,7 +15,7 @@ public class ItemLogView extends SessionView {
 
 	private ItemLogPanel panel;
 
-	public ItemLogView() {
+	public ItemLogView(InventoryItem inventoryItem) {
 		super("Cabinetron Inventory: Logged in as " + Main.userSession.getUser().getName());
 
 		try {
@@ -23,18 +24,17 @@ public class ItemLogView extends SessionView {
 			e.printStackTrace();
 		}
 
-		this.setSize(480, 420);
+		this.setSize(600, 420);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// create the main view
 		panel = new ItemLogPanel();
 		add(panel, BorderLayout.CENTER);
 
 		// link the lists to their respective models
-		// TODO: set the model item.getLog()
-		// panel.listInventoryItems.setModel(inventoryModel.getInventoryItemList());
+		panel.listLogEntries.setModel(inventoryItem.getLog().getEntries());
 
 	}
 
@@ -45,12 +45,5 @@ public class ItemLogView extends SessionView {
 	public void updateLogEntryList() {
 		panel.listLogEntries.updateUI();
 	}
-
-	// public void registerListener(InventoryController inventoryController) {
-	// // inventory
-	// panel.listInventoryItems.addMouseListener(inventoryController);
-	// panel.buttonAddInventoryItem.addActionListener(inventoryController);
-	// panel.buttonDeleteInventoryItem.addActionListener(inventoryController);
-	// }
 
 }

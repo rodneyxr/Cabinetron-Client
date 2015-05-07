@@ -3,6 +3,7 @@ package model;
 import java.util.UUID;
 
 import view.InventoryItemView;
+import view.Main;
 
 public abstract class InventoryItem {
 
@@ -10,15 +11,20 @@ public abstract class InventoryItem {
 	private UUID itemID;
 	private double quantity;
 	private Location location;
+	private InventoryItemLog log;
 
 	private InventoryItemView iv;
 
+	private boolean created = false;
+
 	public InventoryItem(Item item, double quantity, Location location) throws Exception {
 		update(true, item, null, quantity, location);
+		created = true;
 	}
 
 	public InventoryItem(Item item, String itemID, double quantity, Location location) throws Exception {
 		update(false, item, itemID, quantity, location);
+		created = true;
 	}
 
 	public void update(double quantity, Location location) throws Exception {
@@ -46,6 +52,9 @@ public abstract class InventoryItem {
 			iv.setUpdateOnly();
 		}
 
+		if (isNewItem) {
+			Main.itemLogGateway.addLogEntry(this, new InventoryItemLogEntry("Insert \"Added\""));
+		}
 	}
 
 	public Item getItem() {
@@ -75,12 +84,22 @@ public abstract class InventoryItem {
 	}
 
 	private void setZeroQuantity() {
+		if (created && quantity != 0) {
+			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
+					String.format("Change (quantity modified) \"Quantity changed from <%.2f> to <%.2f>\"", quantity, 0d));
+			getLog().addLogEntryToDB(this, logEntry);
+		}
 		quantity = 0;
 	}
 
 	public void setQuantity(double quantity) throws Exception {
 		if (quantity <= 0.0) {
 			throw new Exception("Error: Quantity amount is too low");
+		}
+		if (created && this.quantity != quantity) {
+			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
+					String.format("Change (quantity modified) \"Quantity changed from <%.2f> to <%.2f>\"", this.quantity, quantity));
+			getLog().addLogEntryToDB(this, logEntry);
 		}
 		this.quantity = quantity;
 	}
@@ -92,6 +111,11 @@ public abstract class InventoryItem {
 	public void setLocation(Location location) throws Exception {
 		if (location.equals(Location.Unknown))
 			throw new Exception("Error: Location cannot be 'Unknown'");
+		if (created && !location.equals(this.location)) {
+			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
+					"Change (location modified) \"Location changed from <" + this.location + "> to <" + location + ">\"");
+			getLog().addLogEntryToDB(this, logEntry);
+		}
 		this.location = location;
 	}
 
@@ -102,6 +126,13 @@ public abstract class InventoryItem {
 	public void setItemView(InventoryItemView iv) {
 		this.iv = iv;
 		iv.setInventoryItem(this);
+	}
+
+	public InventoryItemLog getLog() {
+		if (log == null) {
+			log = Main.itemLogGateway.getLog(this);
+		}
+		return log;
 	}
 
 	@Override

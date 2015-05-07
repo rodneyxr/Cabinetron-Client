@@ -15,7 +15,6 @@ import model.Item;
 import model.Location;
 import model.PartsModel;
 import view.panels.InventoryItemPanel;
-import view.panels.ItemLogPanel;
 import controller.InventoryController;
 import controller.InventoryItemController;
 
@@ -32,12 +31,10 @@ public class InventoryItemView extends SessionView {
 
 	// GUI items
 	public InventoryItemPanel panel; // panel to hold all elements
-	// private PartPickerView partPickerView;
 	private ItemSelectorView itemSelectorView;
 
 	public InventoryItemView() {
 		super("Cabinetron: Inventory Item");
-		// this.partPickerView = new PartPickerView(partsModel, this);
 		this.itemSelectorView = new ItemSelectorView();
 
 		try {
@@ -114,7 +111,7 @@ public class InventoryItemView extends SessionView {
 
 				switch (e.getActionCommand()) {
 				case "Add Item":
-					System.out.println("InventoryItemView: Add Item button clicked!");
+//					System.out.println("InventoryItemView: Add Item button clicked!");
 					try {
 						inventoryItemController.addInventoryItem(InventoryItemView.this);
 					} catch (Exception ex) {
@@ -123,9 +120,8 @@ public class InventoryItemView extends SessionView {
 					break;
 
 				case "View Log":
-					System.out.println("InventoryItemView: View Log button clicked!");
-					// TODO: show item log
-					new ItemLogView().setVisible(true);
+//					System.out.println("InventoryItemView: View Log button clicked!");
+					new ItemLogView(item).setVisible(true);
 					break;
 				}
 
@@ -147,8 +143,6 @@ public class InventoryItemView extends SessionView {
 		ActionListener buttonSelectListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// handleItemSelected(e);
-				// System.out.println("InventoryItemView: ItemSelectorView: 'Select' button clicked.");
 				hideError();
 				Item item = null;
 				String errorItem = "item";

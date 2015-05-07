@@ -153,12 +153,15 @@ public class InventoryGateway extends Gateway {
 				System.out.println("Deleting inv item from db: " + inv.toString());
 			String sqlStatement = deleteItemByID;
 			statement = connection.prepareStatement(sqlStatement);
-			System.out.println("delting: " + inv.getItemID().toString());
+			if (DEBUG)
+				System.out.println("delting: " + inv.getItemID().toString());
 			statement.setString(1, inv.getItemID().toString());
-			System.out.println(statement.toString());
+			if (DEBUG)
+				System.out.println(statement.toString());
 
 			statement.execute();
-			System.out.println("Delete inv item from DB success!");
+			if (DEBUG)
+				System.out.println("Delete inv item from DB success!");
 		} catch (SQLException e) {
 			if (DEBUG)
 				System.out.println("Delete inv item from DB failed!");
@@ -194,33 +197,6 @@ public class InventoryGateway extends Gateway {
 			System.out.println("Add Inventory Item to db successful!");
 	}
 
-	//
-	// /**
-	// * @note Old function
-	// */
-	// public void addInvItemToDB(InventoryItem inv) {
-	// statement = null;
-	// resultSet = null;
-	// try {
-	// if (DEBUG)
-	// System.out.println("Adding Inventory Item to DB: "
-	// + inv.toString());
-	// String sqlStatement = addInvItem;
-	// statement = connection.prepareStatement(sqlStatement);
-	// statement.setString(1, inv.getItemID().toString());
-	// statement.setString(2, inv.getItem().getItemID().toString());
-	// statement.setDouble(3, inv.getQuantity());
-	// statement.setString(4, inv.getLocation().name());
-	// statement.execute();
-	// } catch (SQLException e) {
-	// if (DEBUG)
-	// System.out.println("Add Inventory Item to db failed!");
-	// e.printStackTrace();
-	// }
-	// if (DEBUG)
-	// System.out.println("Add Inventory Item to db successful!");
-	// }
-
 	/**
 	 * This function updates an Inventory Item in the DB
 	 * 
@@ -238,7 +214,8 @@ public class InventoryGateway extends Gateway {
 			statement.setDouble(1, inv.getQuantity());
 			statement.setString(2, inv.getLocation().name());
 			statement.setString(3, inv.getItemID().toString());
-			System.out.println(statement.toString());
+			if (DEBUG)
+				System.out.println(statement.toString());
 			statement.execute();
 			if (DEBUG)
 				System.out.println("Update inv item to db successful!");
