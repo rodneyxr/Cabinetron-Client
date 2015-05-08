@@ -32,7 +32,7 @@ public class ItemLogPanel extends JPanel {
 		/**
 		 * Log
 		 */
-		listLogEntries.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+		listLogEntries.setFont(new Font("Tahoma", 1, 12)); // NOI18N
 		scrollLogEntryList.setViewportView(listLogEntries);
 		add(scrollLogEntryList);
 

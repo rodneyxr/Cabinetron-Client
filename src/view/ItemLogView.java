@@ -24,7 +24,7 @@ public class ItemLogView extends SessionView {
 			e.printStackTrace();
 		}
 
-		this.setSize(600, 420);
+		this.setSize(900, 500);
 		this.setResizable(true);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
