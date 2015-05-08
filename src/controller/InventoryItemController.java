@@ -106,7 +106,6 @@ public class InventoryItemController {
 			return;
 		}
 
-		// TODO: created item here
 		parent.setVisible(false);
 		parent.setUpdateOnly();
 		newItem.setItemView(parent);
