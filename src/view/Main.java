@@ -54,7 +54,7 @@ public class Main {
 	public static InventoryGateway inventoryGateway;
 	public static ProductTemplateGateway productTemplateGateway;
 	public static SessionController sessionController = new SessionController();
-//	public static InventoryItemLogGateway itemLogGateway = new InventoryItemLogGateway();
+	//
 
 	private static SplashScreen splashScreen;
 	private static AuthenticatorRemote authenticator;
@@ -103,7 +103,7 @@ public class Main {
 			mainView.setSize(960, 540);
 			mainView.setResizable(true);
 			mainView.setLocationRelativeTo(null);
-			mainView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			mainView.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			mainView.setVisible(true);
 
 			// set the menu bar

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -10,6 +11,7 @@ import javax.swing.DefaultListModel;
 
 import logging.InventoryItemLogEntry;
 import logging.InventoryItemLogGatewayRemote;
+import logging.StateObserver;
 import view.Main;
 
 public class InventoryItemLog implements Serializable {
@@ -17,10 +19,12 @@ public class InventoryItemLog implements Serializable {
 
 	private DefaultListModel<InventoryItemLogEntry> entries;
 	public static InventoryItemLogGatewayRemote itemLogGateway;
+	public static StateObserver stateObserver;
+
 	static {
-		if (itemLogGateway == null) {
+		if (itemLogGateway == null || stateObserver == null) {
 			if (Main.DEBUG_MODE) {
-				System.out.println("Connecting to InventoryItemLogGatewayRemote...");
+				System.out.println("InventoryItemLog: Connecting to InventoryItemLogGatewayRemote...");
 			}
 			try {
 				Properties props = new Properties();
@@ -30,10 +34,18 @@ public class InventoryItemLog implements Serializable {
 				InitialContext itx = new InitialContext(props);
 				itemLogGateway = (InventoryItemLogGatewayRemote) itx.lookup("java:global/CabinetronEAR/cabinetron_bean/InventoryItemLogGateway!logging.InventoryItemLogGatewayRemote");
 				System.out.println("Successfully connected to InventoryItemLogGatewayRemote!");
+
+				if (Main.DEBUG_MODE)
+					System.out.println("InventoryItemLog: Initializing StateObserver...");
+				stateObserver = new StateObserver();
+				itemLogGateway.registerObserver(stateObserver);
+				System.out.println("Registered client as InventoryItemLog observer.");
 			} catch (NamingException e1) {
 				e1.printStackTrace();
 				System.err.println("Error: Failed to connect to InventoryItemLogGatewayRemote!");
 				itemLogGateway = null;
+			} catch (RemoteException e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -1,11 +1,6 @@
 package test;
 
-import static org.junit.Assert.assertEquals;
-import logging.InventoryItemLogEntry;
-import logging.Utils;
-
 import org.junit.Before;
-import org.junit.Test;
 
 public class TestJedisDB {
 
@@ -14,13 +9,13 @@ public class TestJedisDB {
 
 	}
 
-	@Test
-	public void TestBlobify() throws Exception {
-		InventoryItemLogEntry entry = new InventoryItemLogEntry("Test Description");
-		String blob = Utils.blobify(entry);
-		InventoryItemLogEntry entry1 = (InventoryItemLogEntry) Utils.deblobify(blob);
-		assertEquals(entry.toString(), entry1.toString());
-	}
+	// @Test
+	// public void TestBlobify() throws Exception {
+	// InventoryItemLogEntry entry = new InventoryItemLogEntry("Test Description");
+	// String blob = Utils.blobify(entry);
+	// InventoryItemLogEntry entry1 = (InventoryItemLogEntry) Utils.deblobify(blob);
+	// assertEquals(entry.toString(), entry1.toString());
+	// }
 
 	// @Test
 	// public void TestJedis() throws Exception {

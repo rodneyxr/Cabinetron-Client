@@ -135,6 +135,12 @@ public abstract class InventoryItem {
 		return log;
 	}
 
+	public void refreshLog() {
+		// TODO: pull new log info from the server
+		
+		// getLog().setEntries(InventoryItemLog.itemLogGateway.getLogListModel(this.getItemID()));
+	}
+
 	@Override
 	public boolean equals(Object object) {
 		InventoryItem other = (InventoryItem) object;

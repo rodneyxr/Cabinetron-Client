@@ -23,7 +23,6 @@ public class ItemLogPanel extends JPanel {
 	}
 
 	private void initComponents() {
-
 		scrollLogEntryList = new JScrollPane();
 		listLogEntries = new JList<InventoryItemLogEntry>();
 		listLogEntries.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -35,7 +34,6 @@ public class ItemLogPanel extends JPanel {
 		listLogEntries.setFont(new Font("Tahoma", 1, 12)); // NOI18N
 		scrollLogEntryList.setViewportView(listLogEntries);
 		add(scrollLogEntryList);
-
 	}
 
 	// inventory
