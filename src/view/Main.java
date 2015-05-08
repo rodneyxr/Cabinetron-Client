@@ -31,7 +31,6 @@ import controller.PartController;
 import controller.ProductTemplateController;
 import controller.SessionController;
 import database.InventoryGateway;
-import database.InventoryItemLogGateway;
 import database.PartGateway;
 import database.ProductTemplateGateway;
 
@@ -42,7 +41,7 @@ import database.ProductTemplateGateway;
  */
 
 public class Main {
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 
 	// user session variables
 	public static Session userSession;
@@ -55,7 +54,7 @@ public class Main {
 	public static InventoryGateway inventoryGateway;
 	public static ProductTemplateGateway productTemplateGateway;
 	public static SessionController sessionController = new SessionController();
-	public static InventoryItemLogGateway itemLogGateway = new InventoryItemLogGateway();
+//	public static InventoryItemLogGateway itemLogGateway = new InventoryItemLogGateway();
 
 	private static SplashScreen splashScreen;
 	private static AuthenticatorRemote authenticator;
@@ -83,7 +82,7 @@ public class Main {
 			props.put("org.omg.CORBA.ORBInitialPort", "3700");
 
 			InitialContext itx = new InitialContext(props);
-			authenticator = (AuthenticatorRemote) itx.lookup("java:global/cabinetron_bean/Authenticator!session.AuthenticatorRemote");
+			authenticator = (AuthenticatorRemote) itx.lookup("java:global/CabinetronEAR/cabinetron_bean/Authenticator!session.AuthenticatorRemote");
 			System.out.println("Successfully connected!");
 		} catch (NamingException e1) {
 			e1.printStackTrace();

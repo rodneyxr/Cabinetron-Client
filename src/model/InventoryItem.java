@@ -2,8 +2,8 @@ package model;
 
 import java.util.UUID;
 
+import logging.InventoryItemLogEntry;
 import view.InventoryItemView;
-import view.Main;
 
 public abstract class InventoryItem {
 
@@ -53,7 +53,7 @@ public abstract class InventoryItem {
 		}
 
 		if (isNewItem) {
-			Main.itemLogGateway.addLogEntry(this, new InventoryItemLogEntry("Insert \"Added\""));
+			InventoryItemLog.itemLogGateway.addLogEntry(this.getItemID(), new InventoryItemLogEntry("Insert \"Added\""));
 		}
 	}
 
@@ -87,7 +87,7 @@ public abstract class InventoryItem {
 		if (created && quantity != 0) {
 			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
 					String.format("Change (quantity modified) \"Quantity changed from <%.2f> to <%.2f>\"", quantity, 0d));
-			getLog().addLogEntryToDB(this, logEntry);
+			getLog().addLogEntryToDB(this.getItemID(), logEntry);
 		}
 		quantity = 0;
 	}
@@ -99,7 +99,7 @@ public abstract class InventoryItem {
 		if (created && this.quantity != quantity) {
 			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
 					String.format("Change (quantity modified) \"Quantity changed from <%.2f> to <%.2f>\"", this.quantity, quantity));
-			getLog().addLogEntryToDB(this, logEntry);
+			getLog().addLogEntryToDB(this.getItemID(), logEntry);
 		}
 		this.quantity = quantity;
 	}
@@ -114,7 +114,7 @@ public abstract class InventoryItem {
 		if (created && !location.equals(this.location)) {
 			InventoryItemLogEntry logEntry = new InventoryItemLogEntry( //
 					"Change (location modified) \"Location changed from <" + this.location + "> to <" + location + ">\"");
-			getLog().addLogEntryToDB(this, logEntry);
+			getLog().addLogEntryToDB(this.getItemID(), logEntry);
 		}
 		this.location = location;
 	}
@@ -130,7 +130,7 @@ public abstract class InventoryItem {
 
 	public InventoryItemLog getLog() {
 		if (log == null) {
-			log = Main.itemLogGateway.getLog(this);
+			log = new InventoryItemLog(InventoryItemLog.itemLogGateway.getLogListModel(this.getItemID()));
 		}
 		return log;
 	}
