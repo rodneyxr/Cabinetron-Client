@@ -3,9 +3,11 @@ package model;
 import java.util.UUID;
 
 import logging.InventoryItemLogEntry;
+import logging.StateObserver;
+import view.ClientItemObserver;
 import view.InventoryItemView;
 
-public abstract class InventoryItem {
+public abstract class InventoryItem implements ClientItemObserver {
 
 	private Item item;
 	private UUID itemID;
@@ -131,14 +133,17 @@ public abstract class InventoryItem {
 	public InventoryItemLog getLog() {
 		if (log == null) {
 			log = new InventoryItemLog(InventoryItemLog.itemLogGateway.getLogListModel(this.getItemID()));
+			StateObserver.register(this);
+			// StateObserver.unregister(ItemLogView.this);
 		}
 		return log;
 	}
 
-	public void refreshLog() {
-		// TODO: pull new log info from the server
-		
-		// getLog().setEntries(InventoryItemLog.itemLogGateway.getLogListModel(this.getItemID()));
+	@Override
+	public void itemChanged(UUID item, InventoryItemLogEntry entry) {
+		if (getItemID().equals(item)) {
+			getLog().addLogEntry(entry);
+		}
 	}
 
 	@Override

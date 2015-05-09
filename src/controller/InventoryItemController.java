@@ -112,8 +112,6 @@ public class InventoryItemController {
 	}
 
 	public void updateInventoryItem(InventoryItemView iiv) {
-		System.out.println("InventoryItemController->updateInventoryItem(): 'Update Item' button clicked.");
-
 		InventoryItemView parent = iiv;
 
 		InventoryItem oldItem = parent.getInventoryItem();

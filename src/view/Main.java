@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.InventoryItem;
+import model.InventoryItemLog;
 import model.InventoryModel;
 import model.Part;
 import model.PartsModel;
@@ -54,7 +55,6 @@ public class Main {
 	public static InventoryGateway inventoryGateway;
 	public static ProductTemplateGateway productTemplateGateway;
 	public static SessionController sessionController = new SessionController();
-	//
 
 	private static SplashScreen splashScreen;
 	private static AuthenticatorRemote authenticator;
@@ -64,6 +64,20 @@ public class Main {
 	public static void main(String[] args) {
 		if (!Main.DEBUG_MODE)
 			initSession();
+
+		// add shutdown hook to unregister our observer from the remote EJB when VM quits (e.g., Command-Q)
+		// OTHERWISE, remote EJB will try to notify observers that are not there
+		// and this creates nasty response lag (connection timeouts on remote EJB)
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
+			public void run() {
+				System.out.println("Unregistering observer...");
+				if (InventoryItemLog.itemLogGateway != null && InventoryItemLog.stateObserver != null) {
+					InventoryItemLog.itemLogGateway.unregisterObserver(InventoryItemLog.stateObserver);
+					System.out.println("Unregistered client as InventoryItemLog observer.");
+				}
+			}
+		});
 
 		new Runnable() {
 			@Override

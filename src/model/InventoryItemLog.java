@@ -71,7 +71,6 @@ public class InventoryItemLog implements Serializable {
 	}
 
 	public void addLogEntryToDB(UUID item, InventoryItemLogEntry logEntry) {
-		entries.addElement(logEntry);
 		itemLogGateway.addLogEntry(item, logEntry);
 	}
 

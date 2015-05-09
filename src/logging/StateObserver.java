@@ -27,17 +27,20 @@ public class StateObserver implements StateObserverRemote {
 
 	// callback the method that the EJB remotely calls
 	@Override
-	public void callback(UUID item) throws RemoteException {
+	public void callback(UUID item, InventoryItemLogEntry entry) throws RemoteException {
 		if (item == null) {
 			System.out.println("null item");
 		}
-		System.out.println(item);
-		notifyClientObservers(item);
+		System.out.println("StateObserver: Callback for item: " + item);
+		notifyClientObservers(item, entry);
+		System.out.println("StateObserver: done with callback.");
 	}
 
-	private static void notifyClientObservers(UUID item) {
+	private static void notifyClientObservers(UUID item, InventoryItemLogEntry entry) {
 		for (ClientItemObserver observer : observers) {
-			observer.itemChanged(item);
+			System.out.println("StateObserver: Notifiying observer...");
+			observer.itemChanged(item, entry);
+			System.out.println("StateObserver: Notified an observer");
 		}
 	}
 

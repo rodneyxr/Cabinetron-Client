@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import model.InventoryItemLog;
 import view.panels.SplashPanel;
 
 public class SplashScreen extends JFrame {
@@ -119,10 +118,10 @@ public class SplashScreen extends JFrame {
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (InventoryItemLog.itemLogGateway != null && InventoryItemLog.stateObserver != null) {
-					InventoryItemLog.itemLogGateway.unregisterObserver(InventoryItemLog.stateObserver);
-					System.out.println("Unregistered client as InventoryItemLog observer.");
-				}
+//				if (InventoryItemLog.itemLogGateway != null && InventoryItemLog.stateObserver != null) {
+//					InventoryItemLog.itemLogGateway.unregisterObserver(InventoryItemLog.stateObserver);
+//					System.out.println("Unregistered client as InventoryItemLog observer.");
+//				}
 				System.out.println("Good bye!");
 				System.exit(0);
 			}
