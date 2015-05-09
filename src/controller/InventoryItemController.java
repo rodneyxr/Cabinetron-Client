@@ -149,7 +149,6 @@ public class InventoryItemController {
 		long oldTimeStamp = inventoryController.itemTimeStamp;
 
 		if (timeStamp != oldTimeStamp) {
-			System.out.println("Timestamps are NOT equal!");
 			JOptionPane.showMessageDialog(parent.panel, "This InventoryItem has been modified since you last opened it.\n" + "\tYour changes have NOT been saved.\n");
 			// set saved time stamp to that of the database
 			inventoryController.itemTimeStamp = timeStamp;

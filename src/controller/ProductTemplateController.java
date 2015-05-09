@@ -74,7 +74,6 @@ public class ProductTemplateController {
 	}
 
 	public void deleteProductTemplatePart(ProductTemplateView ptv) throws Exception {
-		System.out.println("ProductTemplateController.deleteProductTemplatePart(): Delete");
 		ProductTemplatePart tp = ptv.getSelectedPart();
 		Main.productTemplateGateway.deleteProductTemplatePart(tp.getProductTemplateID().toString(), tp);
 		ptv.removePartByPartID(tp.getPartID().toString());

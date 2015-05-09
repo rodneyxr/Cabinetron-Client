@@ -9,14 +9,12 @@ public class SessionController {
 
 	public static void registerView(SessionView view) {
 		sessionViews.add(view);
-		// System.out.println(view.getName() + " registered");
 	}
 
 	public void logout() {
 		for (SessionView view : sessionViews) {
 			if (view != null) {
 				view.logout();
-				// System.out.println(view.getName() + " hidden");
 			}
 		}
 		sessionViews.clear();

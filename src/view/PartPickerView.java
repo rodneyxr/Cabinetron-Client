@@ -127,7 +127,6 @@ public class PartPickerView extends SessionView {
 		panel.buttonCancel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("PartPickerView: 'Cancel' button clicked.");
 				PartPickerView.this.hideView();
 			}
 		});

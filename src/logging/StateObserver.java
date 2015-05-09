@@ -33,28 +33,23 @@ public class StateObserver implements StateObserverRemote {
 		}
 		System.out.println("StateObserver: Callback for item: " + item);
 		notifyClientObservers(item, entry);
-		System.out.println("StateObserver: done with callback.");
 	}
 
 	private static void notifyClientObservers(UUID item, InventoryItemLogEntry entry) {
 		for (ClientItemObserver observer : observers) {
-			System.out.println("StateObserver: Notifiying observer...");
 			observer.itemChanged(item, entry);
-			System.out.println("StateObserver: Notified an observer");
 		}
 	}
 
 	public static void register(ClientItemObserver observer) {
 		if (observer != null) {
 			observers.add(observer);
-			System.out.println("StateObserver: registered observer");
 		}
 	}
 
 	public static void unregister(ClientItemObserver observer) {
 		if (observer != null) {
 			observers.remove(observer);
-			System.out.println("StateObserver: unregistered observer");
 		}
 	}
 
