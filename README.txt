@@ -1,7 +1,6 @@
 Applied Software Engineering Assignment 6
 
 Rodney Rodriguez
-kto128
 
 NOTES:
 	- The project needs to use Java 8 because of the new Base64 class that is used 
